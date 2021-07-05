@@ -1,5 +1,16 @@
 #include "Vector.hpp"
 
+
+
+
+Vector::Vector() {
+	tabVector = new float[3];
+	tabVector[0] = 0;
+	tabVector[1] = 0;
+	tabVector[2] = 0;
+}
+
+
 Vector::Vector(int x, int y, int z) {
 	tabVector = new float[3];
 	tabVector[0] = x;
@@ -62,4 +73,9 @@ Vector& operator/(Vector v, float f) {
 	float z = v[2] / f;
 	Vector res(x, y, z);
 	return res;
+}
+
+Vector Vector::operator-() {
+	return Vector(-tabVector[0], -tabVector[1], -tabVector[2]);
+	
 }
