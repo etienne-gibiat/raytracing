@@ -239,11 +239,13 @@ int main(int argc, char** argv)
     // light
     spheres.push_back(Sphere(Vec3f(0.0, 20, -30), 3, Vec3f(0.00, 0.00, 0.00), 0, 0.0, Vec3f(3)));
     render(spheres);*/
+    Color red(1, 0, 0);
     Scene scene = Scene();
-    Sphere sphere = Sphere();
-    sphere.translate(10, 4, 0);
-    scene.addObject(sphere);
-
+    Sphere sphere(red);
+    Light light = Light();
+    //sphere.translate(10, 4, 0);
+    scene.addObject(&sphere);
+    scene.addLight(light);
     
     Tracer tracer = Tracer();
     tracer.render(scene);

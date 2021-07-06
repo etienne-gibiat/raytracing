@@ -1,7 +1,7 @@
 #pragma once
 #include "Object.hpp"
 
-class Sphere : public Object
+class Sphere : virtual public Object
 {
 public:
 

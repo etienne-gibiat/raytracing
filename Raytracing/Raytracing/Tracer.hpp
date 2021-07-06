@@ -12,7 +12,7 @@ public:
 	Tracer();
 
 	void render(Scene scene);
-	Color getImpactColor(Ray& ray, Object& obj, Point& impact, Scene& scene);
+	Color getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene);
 	Color trace(Ray ray, Scene scene, int depth);
 
 private:

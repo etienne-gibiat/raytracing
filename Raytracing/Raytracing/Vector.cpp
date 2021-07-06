@@ -4,7 +4,6 @@
 
 
 Vector::Vector() {
-	tabVector = new float[3];
 	tabVector[0] = 0;
 	tabVector[1] = 0;
 	tabVector[2] = 0;
@@ -12,7 +11,6 @@ Vector::Vector() {
 
 
 Vector::Vector(int x, int y, int z) {
-	tabVector = new float[3];
 	tabVector[0] = x;
 	tabVector[1] = y;
 	tabVector[2] = z;

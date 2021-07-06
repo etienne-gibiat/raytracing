@@ -7,7 +7,7 @@ Sphere::Sphere()
 
 Sphere::Sphere(Color color)
 {
-	this->material = Material(Color(0, 1, 0), Color(), Color(), 0);
+	this->material = Material(Color(0, 1, 0), color, color, 0);
 }
 
 Ray Sphere::getNormal(const Point& impact, const Point& observator) {

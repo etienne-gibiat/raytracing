@@ -4,7 +4,7 @@
 
 class Point {
 public:
-    float* tabPoint;
+    float tabPoint[3];
     Point();
     Point(int x, int y, int z);
     float dot(Point);
@@ -22,7 +22,7 @@ public:
 
 class Vector {
 public:
-    float* tabVector;
+    float tabVector[3];
     Vector();
     Vector(int x,int y, int z);
     float norm();

@@ -2,13 +2,11 @@
 
 
 Point::Point() {
-	tabPoint = new float[3];
 	tabPoint[0] = 0;
 	tabPoint[1] = 0;
 	tabPoint[2] = 0;
 }
 Point::Point(int x, int y, int z) {
-	tabPoint = new float[3];
 	tabPoint[0] = x;
 	tabPoint[1] = y;
 	tabPoint[2] = z;

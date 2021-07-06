@@ -53,9 +53,9 @@ void Tracer::render(Scene scene) {
 
 }
 
-Color Tracer::getImpactColor(Ray& ray, Object& obj, Point& impact, Scene& scene) {
+Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene) {
 
-    Material m = obj.getMaterial(impact);
+    Material m = obj->getMaterial(impact);
     Color amb = m.ambiant.mul(scene.getAmbiant());
 
     Color diff = Color();
@@ -63,7 +63,7 @@ Color Tracer::getImpactColor(Ray& ray, Object& obj, Point& impact, Scene& scene)
 
     float angle, angle2;
     int nbLights = scene.nbLights();
-    Ray normale = obj.getNormal(impact, ray.origin);
+    Ray normale = obj->getNormal(impact, ray.origin);
 
     for (int i = 0; i < nbLights; i++) {
         Ray l = scene.getLight(i).getRayToLight(impact);
@@ -77,8 +77,8 @@ Color Tracer::getImpactColor(Ray& ray, Object& obj, Point& impact, Scene& scene)
             spec += m.specular.mul(scene.getLight(i).id) * pow(angle2, m.shininess);
         }
     }
-
-    return diff + amb + spec;
+    Color Phong = diff + amb + spec;
+    return Phong;
 
 }
 
@@ -92,7 +92,7 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
     if (!object)
         res = scene.getBackground();
     else
-        Color res = getImpactColor(ray, *object, impact, scene);
+        res = getImpactColor(ray, object, impact, scene);
 
     return res;
 }

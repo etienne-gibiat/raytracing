@@ -7,7 +7,7 @@ class Scene
 {
 public:
     Scene();
-    void addObject(Object& object);
+    void addObject(Object* object);
     void addLight(Light light);
     void setAmbiant(const Color& c);
     Color getBackground();
@@ -18,7 +18,7 @@ public:
 protected:
     Color background;
     Color ambiant;
-    std::vector<Object> objects;
+    std::vector<Object*> objects;
     std::vector<Light> lights;
 
 };
