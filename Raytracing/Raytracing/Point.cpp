@@ -1,4 +1,4 @@
-#include "Point.hpp"
+#include "Vector.hpp"
 
 
 Point::Point() {
@@ -35,6 +35,16 @@ Point& operator+(Point v, Point v2) {
 	Point res(x, y, z);
 	return res;
 }
+
+/*Point& operator+(Point v, Vector v2) {
+	float x = v[0] + v2[0];
+	float y = v[1] + v2[1];
+	float z = v[2] + v2[2];
+	Point res(x, y, z);
+	return res;
+}*/
+
+
 Point& operator-(Point v, Point v2) {
 	float x = v[0] - v2[0];
 	float y = v[1] - v2[1];
@@ -42,6 +52,15 @@ Point& operator-(Point v, Point v2) {
 	Point res(x, y, z);
 	return res;
 }
+
+/*Point& Point::operator=(Vector v) {
+	float x = v[0];
+	float y = v[1];
+	float z = v[2];
+	Point res(x, y, z);
+	return res;
+}*/
+
 Point& operator*(Point v, float f) {
 	float x = v[0] * f;
 	float y = v[1] * f;

@@ -6,6 +6,9 @@
 #include <iostream>
 #include <cassert>
 #include "opencv2/highgui/highgui.hpp"
+#include "Scene.hpp"
+#include "Sphere.hpp"
+#include "Tracer.hpp"
 #define M_PI 3.141592653589793
 #define INFINITY 1e8
 
@@ -45,14 +48,14 @@ public:
 
 typedef Vec3<float> Vec3f;
 
-class Sphere
+class Spheres
 {
 public:
     Vec3f center;                           /// position of the sphere
     float radius, radius2;                  /// sphere radius and radius^2
     Vec3f surfaceColor, emissionColor;      /// surface color and emission (light)
     float transparency, reflection;         /// surface transparency and reflectivity
-    Sphere(
+    Spheres(
         const Vec3f& c,
         const float& r,
         const Vec3f& sc,
@@ -104,12 +107,12 @@ float mix(const float& a, const float& b, const float& mix)
 Vec3f trace(
     const Vec3f& rayorig,
     const Vec3f& raydir,
-    const std::vector<Sphere>& spheres,
+    const std::vector<Spheres>& spheres,
     const int& depth)
 {
     //if (raydir.length() != 1) std::cerr << "Error " << raydir << std::endl;
     float tnear = INFINITY;
-    const Sphere* sphere = NULL;
+    const Spheres* sphere = NULL;
     // find intersection of this ray with the sphere in the scene
     for (unsigned i = 0; i < spheres.size(); ++i) {
         float t0 = INFINITY, t1 = INFINITY;
@@ -189,9 +192,9 @@ Vec3f trace(
 // trace it and return a color. If the ray hits a sphere, we return the color of the
 // sphere at the intersection point, else we return the background color.
 //[/comment]
-void render(const std::vector<Sphere>& spheres)
+void render(const std::vector<Spheres>& spheres)
 {
-    unsigned width = 640, height = 480;
+    unsigned width = 4000, height = 2500;
     Vec3f* image = new Vec3f[width * height], * pixel = image;
     float invWidth = 1 / float(width), invHeight = 1 / float(height);
     float fov = 30, aspectratio = width / float(height);
@@ -225,7 +228,7 @@ void render(const std::vector<Sphere>& spheres)
 //[/comment]
 int main(int argc, char** argv)
 {
-    //srand48(13);
+    /*//srand48(13);
     std::vector<Sphere> spheres;
     // position, radius, surface color, reflectivity, transparency, emission color
     spheres.push_back(Sphere(Vec3f(0.0, -10004, -20), 10000, Vec3f(0.20, 0.20, 0.20), 0, 0.0));
@@ -235,7 +238,16 @@ int main(int argc, char** argv)
     spheres.push_back(Sphere(Vec3f(-5.5, 0, -15), 3, Vec3f(0.90, 0.90, 0.90), 1, 0.0));
     // light
     spheres.push_back(Sphere(Vec3f(0.0, 20, -30), 3, Vec3f(0.00, 0.00, 0.00), 0, 0.0, Vec3f(3)));
-    render(spheres);
+    render(spheres);*/
+    Scene scene = Scene();
+    Sphere sphere = Sphere();
+    sphere.translate(10, 4, 0);
+    scene.addObject(sphere);
+
+    
+    Tracer tracer = Tracer();
+    tracer.render(scene);
+    
 
     return 0;
 }

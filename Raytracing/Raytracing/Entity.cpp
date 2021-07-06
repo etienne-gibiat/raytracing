@@ -1,5 +1,14 @@
 #include "Entity.hpp"
 
+Entity::Entity() {
+	this->trans = Matrix();
+	this->transInv = this->trans.inverse();
+}
+
+Entity::Entity(Matrix trans) {
+	this->trans = Matrix(trans);
+	this->transInv = this->trans.inverse();
+}
 
 void Entity::translate(float x, float y, float z) {
 	trans(0, 3) = trans(0, 3) + x;
@@ -49,4 +58,36 @@ void Entity::rotateZ(float deg) {
 	tmp(1, 1) = cos(deg);
 	trans = tmp * trans;
 	transInv = trans.inverse();
+}
+
+Point Entity::localToGlobal(Point p) {
+	return transInv * p;					 	    	 	 		 
+}
+
+Vector Entity::localToGlobal( Vector v) {
+
+	return transInv * v;						 	    	 	 		 
+}
+
+Ray Entity::localToGlobal( Ray r) {
+	Point p = transInv * (r.origin);
+	Vector v = transInv * (r.vector);
+	Ray ray(p, v);
+	return ray;				 	    	 	 		 
+
+}
+
+Point Entity::globalToLocal(Point p) {
+	return trans * p;
+}
+
+Vector Entity::globalToLocal(Vector v) {
+	return trans * v;
+}
+
+Ray Entity::globalToLocal(Ray r) {
+	Point p = trans * (r.origin);
+	Vector v = trans * (r.vector);
+	Ray ray(p, v);
+	return ray;
 }
