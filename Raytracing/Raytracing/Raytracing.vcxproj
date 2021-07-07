@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -156,6 +157,7 @@
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Color.hpp" />
     <ClInclude Include="Entity.hpp" />

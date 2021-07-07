@@ -2,12 +2,22 @@
 
 Sphere::Sphere() : Object::Object()
 {
-	
+	this->position = Point(0, 0, 0);
+	this->radius = 1;
 }
 
-Sphere::Sphere(Color color)
+Sphere::Sphere(Color color, Point position, float radius)
 {
-	this->material = Material(Color(0, 1, 0), color, color, 0);
+	this->material = Material(color, color, color, 0);
+	this->position = Point(position);
+	this->radius = radius;
+}
+
+Sphere::Sphere(Material material, Point position, float radius)
+{
+	this->material = Material(material);
+	this->position = Point(position);
+	this->radius = radius;
 }
 
 Ray Sphere::getNormal(const Point& impact, const Point& observator) {
@@ -45,7 +55,7 @@ bool Sphere::intersect(const Ray & ray, Point & impact){
 	r.normalized();
 	float a = r.vector.dot(r.vector);
 	float b = 2 * r.vector.dot(r.origin);
-	float c = r.origin.dot(r.origin) - 1.0;
+	float c = r.origin.dot(r.origin) - radius * radius;
 	float delta = b * b - 4 * a * c;
 
 	if (delta < 0)return false;

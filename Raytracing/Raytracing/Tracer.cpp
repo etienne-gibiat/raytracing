@@ -12,6 +12,7 @@
 #include "Sphere.hpp"
 #include "Tracer.hpp"
 #include "Camera.hpp"
+#include "Bitmap.hpp"
 
 
 Tracer::Tracer()
@@ -20,14 +21,18 @@ Tracer::Tracer()
 
 void Tracer::render(Scene scene) {
 
+    const float gamma = 1.f / 2.2f;
+
     unsigned width = 640, height = 480;
-    Color* image = new Color[width * height], * pixel = image;
+    Bitmap bmp(width, height);
+    Color pixelColor;
+    /*Color* image = new Color[width * height], * pixel = image;
     float invWidth = 1 / float(width), invHeight = 1 / float(height);
     float fov = 30, aspectratio = width / float(height);
-    float angle = tan(M_PI * 0.5 * fov / 180.);
+    float angle = tan(M_PI * 0.5 * fov / 180.);*/
     // Trace rays
-    for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x, ++pixel) {
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
             /*float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
             float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
             Vector raydir(xx, yy, -1);
@@ -37,11 +42,20 @@ void Tracer::render(Scene scene) {
             Camera camera(30);
             Ray ray = camera.getRay(x, y);
 
-            *pixel = trace(ray, scene, 5);
+            pixelColor = trace(ray, scene, 5);
+
+            int r = int(std::min(powf(pixelColor[0], gamma) * 255.99f, 255.f));
+            int g = int(std::min(powf(pixelColor[1], gamma) * 255.99f, 255.f));
+            int b = int(std::min(powf(pixelColor[2], gamma) * 255.99f, 255.f));
+
+            bmp.SetPixel(x, y, Bitmap::Pixel(r, g, b));
+
+            //*pixel = trace(ray, scene, 5);
         }
     }
+    bmp.WriteToDisk();
     // Save result to a PPM image (keep these flags if you compile under Windows)
-    std::ofstream ofs("./untitled.ppm", std::ios::out | std::ios::binary);
+    /*std::ofstream ofs("./raytracingx.ppm", std::ios::out | std::ios::binary);
     ofs << "P6\n" << width << " " << height << "\n255\n";
     for (unsigned i = 0; i < width * height; ++i) {
         ofs << (unsigned char)(std::min(float(1), image[i][0]) * 255) <<
@@ -49,7 +63,7 @@ void Tracer::render(Scene scene) {
             (unsigned char)(std::min(float(1), image[i][2]) * 255);
     }
     ofs.close();
-    delete[] image;
+    delete[] image;*/
 
 }
 
@@ -67,7 +81,7 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
 
     for (int i = 0; i < nbLights; i++) {
         Ray l = scene.getLight(i).getRayToLight(impact);
-        angle = (l.vector.dot(normale.vector) / (l.vector.norm() * normale.vector.norm()));
+        angle = (l.vector.dot(normale.vector) / (l.vector.norm() * normale.vector.norm()));//
         Vector v = l.vector - 2 * (l.vector.dot(normale.vector) * normale.vector);
         angle2 = (v.dot(ray.vector)) / (v.norm() * ray.vector.norm());
         if (angle > 0) {

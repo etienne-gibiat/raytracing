@@ -210,7 +210,7 @@ void render(const std::vector<Spheres>& spheres)
         }
     }
     // Save result to a PPM image (keep these flags if you compile under Windows)
-    std::ofstream ofs("./untitled.ppm", std::ios::out | std::ios::binary);
+    std::ofstream ofs("./untitled2.ppm", std::ios::out | std::ios::binary);
     ofs << "P6\n" << width << " " << height << "\n255\n";
     for (unsigned i = 0; i < width * height; ++i) {
         ofs << (unsigned char)(std::min(float(1), image[i].x) * 255) <<
@@ -239,11 +239,11 @@ int main(int argc, char** argv)
     // light
     spheres.push_back(Sphere(Vec3f(0.0, 20, -30), 3, Vec3f(0.00, 0.00, 0.00), 0, 0.0, Vec3f(3)));
     render(spheres);*/
-    Color red(1, 0, 0);
+    Color color(0, 0, 1);
     Scene scene = Scene();
-    Sphere sphere(red);
+    Sphere sphere(color, Point(0, 0, 0), 1);
     Light light = Light();
-    //sphere.translate(10, 4, 0);
+    sphere.translate(10, 10, 0);
     scene.addObject(&sphere);
     scene.addLight(light);
     
