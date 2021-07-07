@@ -26,7 +26,7 @@ Matrix& Matrix::inverse() {
 
     float inv[16], det;
     int i;
-
+    Matrix out = Matrix();
     inv[0] = m_tab[5] * m_tab[10] * m_tab[15] - m_tab[5] * m_tab[11] * m_tab[14] - m_tab[9] * m_tab[6] * m_tab[15] + m_tab[9] * m_tab[7] * m_tab[14] + m_tab[13] * m_tab[6] * m_tab[11] - m_tab[13] * m_tab[7] * m_tab[10];
     inv[4] = -m_tab[4] * m_tab[10] * m_tab[15] + m_tab[4] * m_tab[11] * m_tab[14] + m_tab[8] * m_tab[6] * m_tab[15] - m_tab[8] * m_tab[7] * m_tab[14] - m_tab[12] * m_tab[6] * m_tab[11] + m_tab[12] * m_tab[7] * m_tab[10];
     inv[8] = m_tab[4] * m_tab[9] * m_tab[15] - m_tab[4] * m_tab[11] * m_tab[13] - m_tab[8] * m_tab[5] * m_tab[15] + m_tab[8] * m_tab[7] * m_tab[13] + m_tab[12] * m_tab[5] * m_tab[11] - m_tab[12] * m_tab[7] * m_tab[9];
@@ -52,9 +52,9 @@ Matrix& Matrix::inverse() {
     det = 1.f / det;
 
     for (i = 0; i < 16; i++)
-        m_tab[i] = inv[i] * det;
+        out.m_tab[i] = inv[i] * det;
 
-	return *this;
+	return out;
 	//A modifier
 }
 
