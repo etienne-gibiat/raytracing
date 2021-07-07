@@ -23,6 +23,37 @@ float& Matrix::operator()(int i, int j) {
 }
 
 Matrix& Matrix::inverse() {
+
+    float inv[16], det;
+    int i;
+
+    inv[0] = m_tab[5] * m_tab[10] * m_tab[15] - m_tab[5] * m_tab[11] * m_tab[14] - m_tab[9] * m_tab[6] * m_tab[15] + m_tab[9] * m_tab[7] * m_tab[14] + m_tab[13] * m_tab[6] * m_tab[11] - m_tab[13] * m_tab[7] * m_tab[10];
+    inv[4] = -m_tab[4] * m_tab[10] * m_tab[15] + m_tab[4] * m_tab[11] * m_tab[14] + m_tab[8] * m_tab[6] * m_tab[15] - m_tab[8] * m_tab[7] * m_tab[14] - m_tab[12] * m_tab[6] * m_tab[11] + m_tab[12] * m_tab[7] * m_tab[10];
+    inv[8] = m_tab[4] * m_tab[9] * m_tab[15] - m_tab[4] * m_tab[11] * m_tab[13] - m_tab[8] * m_tab[5] * m_tab[15] + m_tab[8] * m_tab[7] * m_tab[13] + m_tab[12] * m_tab[5] * m_tab[11] - m_tab[12] * m_tab[7] * m_tab[9];
+    inv[12] = -m_tab[4] * m_tab[9] * m_tab[14] + m_tab[4] * m_tab[10] * m_tab[13] + m_tab[8] * m_tab[5] * m_tab[14] - m_tab[8] * m_tab[6] * m_tab[13] - m_tab[12] * m_tab[5] * m_tab[10] + m_tab[12] * m_tab[6] * m_tab[9];
+    inv[1] = -m_tab[1] * m_tab[10] * m_tab[15] + m_tab[1] * m_tab[11] * m_tab[14] + m_tab[9] * m_tab[2] * m_tab[15] - m_tab[9] * m_tab[3] * m_tab[14] - m_tab[13] * m_tab[2] * m_tab[11] + m_tab[13] * m_tab[3] * m_tab[10];
+    inv[5] = m_tab[0] * m_tab[10] * m_tab[15] - m_tab[0] * m_tab[11] * m_tab[14] - m_tab[8] * m_tab[2] * m_tab[15] + m_tab[8] * m_tab[3] * m_tab[14] + m_tab[12] * m_tab[2] * m_tab[11] - m_tab[12] * m_tab[3] * m_tab[10];
+    inv[9] = -m_tab[0] * m_tab[9] * m_tab[15] + m_tab[0] * m_tab[11] * m_tab[13] + m_tab[8] * m_tab[1] * m_tab[15] - m_tab[8] * m_tab[3] * m_tab[13] - m_tab[12] * m_tab[1] * m_tab[11] + m_tab[12] * m_tab[3] * m_tab[9];
+    inv[13] = m_tab[0] * m_tab[9] * m_tab[14] - m_tab[0] * m_tab[10] * m_tab[13] - m_tab[8] * m_tab[1] * m_tab[14] + m_tab[8] * m_tab[2] * m_tab[13] + m_tab[12] * m_tab[1] * m_tab[10] - m_tab[12] * m_tab[2] * m_tab[9];
+    inv[2] = m_tab[1] * m_tab[6] * m_tab[15] - m_tab[1] * m_tab[7] * m_tab[14] - m_tab[5] * m_tab[2] * m_tab[15] + m_tab[5] * m_tab[3] * m_tab[14] + m_tab[13] * m_tab[2] * m_tab[7] - m_tab[13] * m_tab[3] * m_tab[6];
+    inv[6] = -m_tab[0] * m_tab[6] * m_tab[15] + m_tab[0] * m_tab[7] * m_tab[14] + m_tab[4] * m_tab[2] * m_tab[15] - m_tab[4] * m_tab[3] * m_tab[14] - m_tab[12] * m_tab[2] * m_tab[7] + m_tab[12] * m_tab[3] * m_tab[6];
+    inv[10] = m_tab[0] * m_tab[5] * m_tab[15] - m_tab[0] * m_tab[7] * m_tab[13] - m_tab[4] * m_tab[1] * m_tab[15] + m_tab[4] * m_tab[3] * m_tab[13] + m_tab[12] * m_tab[1] * m_tab[7] - m_tab[12] * m_tab[3] * m_tab[5];
+    inv[14] = -m_tab[0] * m_tab[5] * m_tab[14] + m_tab[0] * m_tab[6] * m_tab[13] + m_tab[4] * m_tab[1] * m_tab[14] - m_tab[4] * m_tab[2] * m_tab[13] - m_tab[12] * m_tab[1] * m_tab[6] + m_tab[12] * m_tab[2] * m_tab[5];
+    inv[3] = -m_tab[1] * m_tab[6] * m_tab[11] + m_tab[1] * m_tab[7] * m_tab[10] + m_tab[5] * m_tab[2] * m_tab[11] - m_tab[5] * m_tab[3] * m_tab[10] - m_tab[9] * m_tab[2] * m_tab[7] + m_tab[9] * m_tab[3] * m_tab[6];
+    inv[7] = m_tab[0] * m_tab[6] * m_tab[11] - m_tab[0] * m_tab[7] * m_tab[10] - m_tab[4] * m_tab[2] * m_tab[11] + m_tab[4] * m_tab[3] * m_tab[10] + m_tab[8] * m_tab[2] * m_tab[7] - m_tab[8] * m_tab[3] * m_tab[6];
+    inv[11] = -m_tab[0] * m_tab[5] * m_tab[11] + m_tab[0] * m_tab[7] * m_tab[9] + m_tab[4] * m_tab[1] * m_tab[11] - m_tab[4] * m_tab[3] * m_tab[9] - m_tab[8] * m_tab[1] * m_tab[7] + m_tab[8] * m_tab[3] * m_tab[5];
+    inv[15] = m_tab[0] * m_tab[5] * m_tab[10] - m_tab[0] * m_tab[6] * m_tab[9] - m_tab[4] * m_tab[1] * m_tab[10] + m_tab[4] * m_tab[2] * m_tab[9] + m_tab[8] * m_tab[1] * m_tab[6] - m_tab[8] * m_tab[2] * m_tab[5];
+
+    det = m_tab[0] * inv[0] + m_tab[1] * inv[4] + m_tab[2] * inv[8] + m_tab[3] * inv[12];
+
+    if (det == 0)
+        return *this;
+
+    det = 1.f / det;
+
+    for (i = 0; i < 16; i++)
+        m_tab[i] = inv[i] * det;
+
 	return *this;
 	//A modifier
 }
