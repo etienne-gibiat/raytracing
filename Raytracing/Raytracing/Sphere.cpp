@@ -1,8 +1,8 @@
 #include "Sphere.hpp"
 
-Sphere::Sphere()
+Sphere::Sphere() : Object::Object()
 {
-	this->material = Material();
+	
 }
 
 Sphere::Sphere(Color color)

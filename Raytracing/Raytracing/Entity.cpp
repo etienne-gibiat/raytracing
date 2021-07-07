@@ -60,16 +60,16 @@ void Entity::rotateZ(float deg) {
 	transInv = trans.inverse();
 }
 
-Point Entity::localToGlobal(Point p) {
+Point Entity::localToGlobal(const Point& p) {
 	return transInv * p;					 	    	 	 		 
 }
 
-Vector Entity::localToGlobal( Vector v) {
+Vector Entity::localToGlobal(const Vector& v) {
 
 	return transInv * v;						 	    	 	 		 
 }
 
-Ray Entity::localToGlobal( Ray r) {
+Ray Entity::localToGlobal(const Ray& r) {
 	Point p = transInv * (r.origin);
 	Vector v = transInv * (r.vector);
 	Ray ray(p, v);

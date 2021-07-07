@@ -2,7 +2,10 @@
 
 
 
-
+Object::Object() : Entity::Entity()
+{
+	this->material = Material();
+}
 
 //Point getTextureCoordinates(const Point& p)const {
 

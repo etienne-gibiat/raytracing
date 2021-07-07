@@ -6,7 +6,7 @@ class Point {
 public:
     float tabPoint[3];
     Point();
-    Point(int x, int y, int z);
+    Point(float x, float y, float z);
     float dot(Point);
     friend Point& operator+(Point, Point);
     //friend Point& operator+(Point, Vector);
@@ -24,7 +24,7 @@ class Vector {
 public:
     float tabVector[3];
     Vector();
-    Vector(int x,int y, int z);
+    Vector(float x,float y, float z);
     float norm();
     Vector normalized();
     float dot(Vector);

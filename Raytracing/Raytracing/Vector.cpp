@@ -10,7 +10,7 @@ Vector::Vector() {
 }
 
 
-Vector::Vector(int x, int y, int z) {
+Vector::Vector(float x, float y, float z) {
 	tabVector[0] = x;
 	tabVector[1] = y;
 	tabVector[2] = z;

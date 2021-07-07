@@ -9,7 +9,7 @@ public:
 
 	Material material;
 
-	
+	Object();
 
 	//Point getTextureCoordinates(const Point& p)const;
 	Material getMaterial(const Point& p)const;

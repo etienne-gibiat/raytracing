@@ -6,7 +6,7 @@ Point::Point() {
 	tabPoint[1] = 0;
 	tabPoint[2] = 0;
 }
-Point::Point(int x, int y, int z) {
+Point::Point(float x, float y, float z) {
 	tabPoint[0] = x;
 	tabPoint[1] = y;
 	tabPoint[2] = z;
