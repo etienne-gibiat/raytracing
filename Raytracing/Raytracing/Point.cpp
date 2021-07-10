@@ -13,8 +13,12 @@ Point::Point(float x, float y, float z) {
 
 
 }
-
-float Point::operator[](int i) {
+float Point::norm() {
+	float norme = tabPoint[0]* tabPoint[0] + tabPoint[1]* tabPoint[1] + tabPoint[2]* tabPoint[2];
+	norme = (float)sqrt(norme);
+	return norme;
+}
+float& Point::operator[](int i) {
 	return tabPoint[i];
 
 }
@@ -74,8 +78,4 @@ Point& operator/(Point v, float f) {
 	float z = v[2] / f;
 	Point res(x, y, z);
 	return res;
-}
-
-Point Point::operator-() {
-	return Point(-tabPoint[0], -tabPoint[1], -tabPoint[2]);
 }

@@ -13,6 +13,6 @@ public:
 	Point& operator*(const Point&);
 	Vector& operator*(const Vector&);
 	Matrix& inverse();
-	Matrix& operator*(const Matrix&);
+	Matrix& operator*(Matrix&);
 
 };

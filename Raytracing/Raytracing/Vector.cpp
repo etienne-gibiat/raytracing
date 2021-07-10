@@ -35,14 +35,18 @@ float Vector::dot(Point p) {
 
 float Vector::norm() {
 	float norme = pow(tabVector[0],2) + pow(tabVector[1], 2) + pow(tabVector[2], 2);
-	norme = sqrt(norme);
+	norme = (float)sqrt(norme);
 	return norme;
 }
-
-Vector Vector::normalized() {
-	float vectorNorm = norm();
-	Vector res(tabVector[0] / vectorNorm, tabVector[1] / vectorNorm, tabVector[2] / vectorNorm);
-	return res;
+float Vector::length2() const { return tabVector[0] * tabVector[0] + tabVector[1] * tabVector[1] + tabVector[2] * tabVector[2]; }
+Vector& Vector::normalized() {
+	float nor2 = length2();
+	if (nor2 > 0) {
+		float invNor = 1 / sqrt(nor2);
+		
+		tabVector[0] *= invNor, tabVector[1] *= invNor, tabVector[2] *= invNor;
+	}
+	return *this;
 
 }
 

@@ -2,7 +2,7 @@
 
 Scene::Scene()
 {
-	background = Color(1, 0, 0);
+	background = Color(0, 0, 0);
 	ambiant = Color(1, 1, 1);
 }
 
@@ -35,11 +35,23 @@ Light Scene::getLight(int index) {
 }
 
 Object* Scene::closer_intersected(Ray& ray, Point& impact) {
+	float tnear = INFINITY;
+	Object* obj = NULL;
 	for (int i = 0; i < objects.size(); i ++) {
-		if (objects[i]->intersect(ray, impact)) {
-			return objects[i];
+		float t0 = INFINITY, t1 = INFINITY;
+		if (objects[i]->intersect(ray, impact, t0, t1)) {
+			if (t0 < 0) t0 = t1;
+			if (t0 < tnear) {
+				tnear = t0;
+				Vector phit = ray.origin + ray.vector * tnear;
+				impact[0] = phit[0];
+				impact[1] = phit[1];
+				impact[2] = phit[2];
+				obj = objects[i];
+				return obj;
+			}
+			
 		}
 	}
-
-	return NULL;
+	return obj;
 }

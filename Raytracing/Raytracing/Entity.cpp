@@ -6,14 +6,16 @@ Entity::Entity() {
 }
 
 Entity::Entity(Matrix trans) {
-	this->trans = Matrix(trans);
+	this->trans = trans;
 	this->transInv = this->trans.inverse();
 }
 
 void Entity::translate(float x, float y, float z) {
-	trans(0, 3) = trans(0, 3) + x;
-	trans(1, 3) = trans(1, 3) + y;
-	trans(2, 3) = trans(2, 3) + z;
+	Matrix m;
+	m(0, 3) = x;
+	m(1, 3) = y;
+	m(2, 3) = z;
+	trans = m * trans;
 	transInv = trans.inverse();
 
 }

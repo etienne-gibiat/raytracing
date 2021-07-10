@@ -9,11 +9,11 @@ public:
 	Sphere(Color color, Point position, float radius);
 	Sphere(Material material, Point position, float radius);
 
-	Point position;
+	//Point position;
 	float radius;
 
 	Ray getNormal(const Point& impact, const Point& observator);
-	bool intersect(const Ray& ray, Point& impact);
+	bool intersect(const Ray& ray, Point& impact, float& t0, float& t1);
 
 
 };

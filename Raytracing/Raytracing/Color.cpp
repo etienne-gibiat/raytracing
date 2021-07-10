@@ -6,7 +6,7 @@ Color::Color() {
 	tabColor[2] = 0.;
 }
 
-Color::Color(int r, int g, int b) {
+Color::Color(float r, float g, float b) {
 
 	if ( r > 1.)
 		r = 1.;
@@ -61,16 +61,17 @@ Color operator+(Color c, Color c2) {
 	return Color(r, g, b);
 }
 
-void Color::operator+=(Color c) {
+Color& Color::operator+=(Color c) {
 	this->tabColor[0] += c[0];
 	this->tabColor[1] += c[1];
 	this->tabColor[2] += c[2];
+	return *this;
 
 }
 
-Color Color::operator*(float a) {
-	float r = this->tabColor[0] * a;
-	float g = this->tabColor[1] * a;
-	float b = this->tabColor[2] * a;
-	return Color(r, g, b);
+Color& Color::operator*(float a) {
+	this->tabColor[0] *= a;
+	this->tabColor[1] *= a;
+	this->tabColor[2] *= a;
+	return *this;
 }

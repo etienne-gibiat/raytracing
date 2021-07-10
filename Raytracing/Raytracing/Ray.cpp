@@ -7,7 +7,7 @@ Ray::Ray()
 	vector = Vector();
 }
 
-Ray::Ray(int ox, int oy, int oz, int vx, int vy, int vz) {
+Ray::Ray(float ox, float oy, float oz, float vx, float vy, float vz) {
 	origin = Point(ox, oy, oz);
 	vector = Vector(vx, vy, vz);
 

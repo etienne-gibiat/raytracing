@@ -8,7 +8,7 @@ class Object : public Entity
 public:
 
 	Material material;
-
+	Point position;
 	Object();
 
 	//Point getTextureCoordinates(const Point& p)const;
@@ -16,7 +16,7 @@ public:
 	virtual Ray getNormal(const Point& p, const Point& o) {
 		return Ray();
 	}
-	virtual bool intersect(const Ray& ray, Point& impact) {
+	virtual bool intersect(const Ray& ray, Point& impact, float& t0, float& t1) {
 		return false;
 	}
 

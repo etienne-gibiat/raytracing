@@ -194,7 +194,7 @@ Vec3f trace(
 //[/comment]
 void render(const std::vector<Spheres>& spheres)
 {
-    unsigned width = 4000, height = 2500;
+    unsigned width = 640, height = 480;
     Vec3f* image = new Vec3f[width * height], * pixel = image;
     float invWidth = 1 / float(width), invHeight = 1 / float(height);
     float fov = 30, aspectratio = width / float(height);
@@ -228,24 +228,58 @@ void render(const std::vector<Spheres>& spheres)
 //[/comment]
 int main(int argc, char** argv)
 {
-    /*//srand48(13);
-    std::vector<Sphere> spheres;
+    //srand48(13);
+    /*std::vector<Spheres> spheres;
     // position, radius, surface color, reflectivity, transparency, emission color
-    spheres.push_back(Sphere(Vec3f(0.0, -10004, -20), 10000, Vec3f(0.20, 0.20, 0.20), 0, 0.0));
-    spheres.push_back(Sphere(Vec3f(0.0, 0, -20), 4, Vec3f(1.00, 0.32, 0.36), 1, 0.5));
-    spheres.push_back(Sphere(Vec3f(5.0, -1, -15), 2, Vec3f(0.90, 0.76, 0.46), 1, 0.0));
-    spheres.push_back(Sphere(Vec3f(5.0, 0, -25), 3, Vec3f(0.65, 0.77, 0.97), 1, 0.0));
-    spheres.push_back(Sphere(Vec3f(-5.5, 0, -15), 3, Vec3f(0.90, 0.90, 0.90), 1, 0.0));
+    spheres.push_back(Spheres(Vec3f(0.0, -10004, -20), 10000, Vec3f(0.20, 0.20, 0.20), 0, 0.0));
+    spheres.push_back(Spheres(Vec3f(0.0, 0, -20), 4, Vec3f(1.00, 0.32, 0.36), 1, 0.5));
+    spheres.push_back(Spheres(Vec3f(5.0, -1, -15), 2, Vec3f(0.90, 0.76, 0.46), 1, 0.0));
+    spheres.push_back(Spheres(Vec3f(5.0, 0, -25), 3, Vec3f(0.65, 0.77, 0.97), 1, 0.0));
+    spheres.push_back(Spheres(Vec3f(-5.5, 0, -15), 3, Vec3f(0.90, 0.90, 0.90), 1, 0.0));
     // light
-    spheres.push_back(Sphere(Vec3f(0.0, 20, -30), 3, Vec3f(0.00, 0.00, 0.00), 0, 0.0, Vec3f(3)));
+    spheres.push_back(Spheres(Vec3f(0.0, 20, -30), 3, Vec3f(0.00, 0.00, 0.00), 0, 0.0, Vec3f(3)));
     render(spheres);*/
-    Color color(0, 0, 1);
+   
+    Color color(1.00, 0.32, 0.36);
+    Color color2(0.90, 0.76, 0.46);
+    Color color3(0.65, 0.77, 0.97);
+    Color color4(0.90,0.90,0.90);
     Scene scene = Scene();
-    Sphere sphere(color, Point(0, 0, 0), 1);
+    //Sphere sphere(color, Point(1200, 1200, 7800), 1);
+    Sphere sphere(color, Point(0, 0, -20), 4); //Une sphere
+    Sphere sphere2(color2, Point(5, -1, -15), 2); //Une sphere
+    Sphere sphere3(color3, Point(5, 0, -25), 3); //Une sphere
+    Sphere sphere4(color4, Point(-5.5, 0, -15), 3); //Une sphere
+    Sphere Globe(Color(0.20, 0.20, 0.20), Point(0.0,-10004,-20), 10000); //sert de sol
+
+
+    sphere.material.diffuse = Color(0.25, 0.25, 0.25);
+    sphere.material.specular = Color(0.75, 0.75, 0.75);
+    sphere.material.shininess = 3;
+
+    sphere2.material.diffuse = Color(0.25, 0.25, 0.25);
+    sphere2.material.specular = Color(0.75, 0.75, 0.75);
+    sphere2.material.shininess = 3;
+
+    sphere3.material.diffuse = Color(0.25, 0.25, 0.25);
+    sphere3.material.specular = Color(0.75, 0.75, 0.75);
+    sphere3.material.shininess = 3;
+
+    sphere4.material.diffuse = Color(0.25, 0.25, 0.25);
+    sphere4.material.specular = Color(0.75, 0.75, 0.75);
+    sphere4.material.shininess = 3;
+
     Light light = Light();
-    sphere.translate(10, 10, 0);
+    light.translate(0, 20, -20); // La lumière est située au dessus de la sphere rouge
+    light.id = Color(0.8,0.8,0.8);
+    light.is = Color(0.5,0.5,0.5);
     scene.addObject(&sphere);
+    scene.addObject(&sphere2);
+    scene.addObject(&sphere3);
+    scene.addObject(&sphere4);
+    scene.addObject(&Globe);
     scene.addLight(light);
+
     
     Tracer tracer = Tracer();
     tracer.render(scene);

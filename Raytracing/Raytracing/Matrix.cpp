@@ -58,17 +58,33 @@ Matrix& Matrix::inverse() {
 	//A modifier
 }
 
-Matrix& Matrix::operator*(const Matrix& m) {
-	// a tester
-    for (int row = 0; row < 4; row++) {
+Matrix& Matrix::operator*(Matrix& m) {
+
+    int i, j, k;
+    Matrix r;
+    float val;
+
+
+    for (i = 0; i < 4; i++)
+        for (j = 0; j < 4; j++)
+        {
+            val = 0;
+            for (k = 0; k < 4; k++)
+                val += this->operator()(i, k) * m(k, j);
+            r(i, j) = val;
+        }
+
+
+    // a tester
+    /*for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
             for (int inner = 0; inner < 3; inner++) {
-               m_tab[row * m_cols + col] = m_tab[row * m_cols + col] * m.m_tab[inner * m_cols + col];	
+               m_tab[row * m_cols + col] = m_tab[row * m_cols + col] * m.m_tab[inner * m_cols + col];
             }
         }
-    }
+    }*/
 
-	return *this;
+    return r;
 }
 
 Point& Matrix::operator*(const Point& p) {

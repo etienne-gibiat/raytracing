@@ -11,7 +11,7 @@ public:
 	Vector vector;
 
 	Ray();
-	Ray(int, int, int, int, int, int);
+	Ray(float, float, float, float, float, float);
 	Ray(Point, Vector);
 
 	void normalized();

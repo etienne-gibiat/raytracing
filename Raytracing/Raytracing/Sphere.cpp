@@ -22,42 +22,40 @@ Sphere::Sphere(Material material, Point position, float radius)
 
 Ray Sphere::getNormal(const Point& impact, const Point& observator) {
 
-	Point p = globalToLocal(impact);
-
-	Vector v(0, 0, 0);
-
-	Point o = globalToLocal(observator);
-	if ((o[0] >= 1 || o[0] <= -1) || (o[1] >= 1 || o[1] <= -1) || (o[2] >= 1 || o[2] <= -1)) {
-
-		v[0] = p[0];
-		v[1] = p[1];
-		v[2] = p[2];
-
+	Point lp = globalToLocal(impact);
+	Point lo = globalToLocal(observator);
+	if ((lo - Point(0, 0, 0)).norm() < 1) {
+		Vector lp2(lp[0], lp[1], lp[2]);
+		Ray res = localToGlobal(Ray(lp, -lp2));
+		res.normalized();
+		return res;
 	}
-	else {
-
-		v[0] = -p[0];
-		v[1] = -p[1];
-		v[2] = -p[2];
-
-	}
-
-	Ray r(impact, localToGlobal(v));
-
-	r.normalized();
-	return r;
+	Vector lp2(lp[0], lp[1], lp[2]);
+	Ray res = localToGlobal(Ray(lp, lp2));
+	res.normalized();
+	return res;
 }
 
-bool Sphere::intersect(const Ray & ray, Point & impact){
+bool Sphere::intersect(const Ray & ray, Point & impact, float& t0, float& t1){
 
+		//Seulement le code ici fonctionne, à voir comment changer ca
+		Point l = position - ray.origin;
+		Vector tmp2 = ray.vector;
+		Point tmp(tmp2[0], tmp2[1], tmp2[2]);
+		float tca = l.dot(tmp);
+		if (tca < 0) return false;
+		float d2 = l.dot(l) - tca * tca;
+		if (d2 > radius * radius) return false;
+		float thc = sqrt((radius * radius) - d2);
+		t0 = tca - thc;
+		t1 = tca + thc;
 
-	Ray r = globalToLocal(ray);
+	/*Ray r = globalToLocal(ray);
 	r.normalized();
 	float a = r.vector.dot(r.vector);
 	float b = 2 * r.vector.dot(r.origin);
 	float c = r.origin.dot(r.origin) - radius * radius;
 	float delta = b * b - 4 * a * c;
-
 	if (delta < 0)return false;
 
 	float t;
@@ -72,6 +70,14 @@ bool Sphere::intersect(const Ray & ray, Point & impact){
 
 	Vector v = r.origin + t * r.vector;
 	Point p(v[0], v[1], v[2]);
-	impact = localToGlobal(p);
+	impact = localToGlobal(p);*/
+	/*Point l = position - ray.origin;
+		Vector tmp2 = ray.vector;
+		Point tmp(tmp2[0], tmp2[1], tmp2[2]);
+		float tca = l.dot(tmp);
+		float d2 = l.dot(l) - tca * tca;
+		float thc = sqrt((radius * radius) - d2);
+		t0 = tca - thc;
+		t1 = tca + thc;*/
 	return true;
 }
