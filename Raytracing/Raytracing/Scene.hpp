@@ -14,6 +14,7 @@ public:
     Color getAmbiant();
     int nbLights();
     Light getLight(int index);
+    std::vector<Object*> getObjects();
     Object* closer_intersected(Ray& ray, Point& impact);
 protected:
     Color background;

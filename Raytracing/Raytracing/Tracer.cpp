@@ -13,6 +13,11 @@
 #include "Tracer.hpp"
 #include "Camera.hpp"
 #include "Bitmap.hpp"
+#include "opencv2/core/core.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
+
 
 
 Tracer::Tracer()
@@ -21,17 +26,22 @@ Tracer::Tracer()
 
 void Tracer::render(Scene scene) {
 
+    
+
     const float gamma = 1.f / 2.2f;
 
     unsigned width = 640, height = 480;
-    //Bitmap bmp(width, height);
+    cv::Mat mat = cv::Mat::ones(height, width, CV_8UC3);
     Color pixelColor;
     Color* image = new Color[width * height], * pixel = image;
     float invWidth = 1 / float(width), invHeight = 1 / float(height);
-    float fov = 30, aspectratio = width / float(height);
+    float fov = 60, aspectratio = width / float(height);
     float angle = tan(M_PI * 0.5 * fov / 180.);
+    
     // Trace rays
     for (unsigned y = 0; y < height; ++y) {
+        cv::imshow("Test", mat);
+        cv::waitKey(1);
         for (unsigned x = 0; x < width; ++x, ++pixel) {
             float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
             float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
@@ -43,11 +53,12 @@ void Tracer::render(Scene scene) {
             //Ray ray = camera.getRay(x, y);
             ray.normalized();
             *pixel = trace(ray, scene, 5);
-
-
-            //*pixel = trace(ray, scene, 5);
+            mat.at<cv::Vec3b>(y, x) = cv::Vec3b(pixel->tabColor[2]*255, pixel->tabColor[1]*255, pixel->tabColor[0]*255);
+            
         }
     }
+   
+    
     // Save result to a PPM image (keep these flags if you compile under Windows)
     std::ofstream ofs("./rendu.ppm", std::ios::out | std::ios::binary);
     ofs << "P6\n" << width << " " << height << "\n255\n";
@@ -124,8 +135,32 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
     Color res;
     if (!object)
         res = scene.getBackground();
-    else
+    else {
         res = getImpactColor(ray, object, impact, scene);
+        Light l = scene.getLight(0);
+        Ray lv = l.getRayToLight(impact);
+
+        Color transmission(1,1,1);
+        Point tmp = lv.origin - impact;
+        Vector lightDirection(tmp[0], tmp[1], tmp[2]);
+        lightDirection.normalized();
+        std::vector<Object*> obj = scene.getObjects();
+        Point impact2 = Point();
+        for (unsigned j = 0; j < obj.size(); ++j) {
+                float t0, t1;
+                if (obj[j]->intersect(lv, impact2, t0, t1)) {
+                    if (obj[j] == object) {
+                        transmission = Color(0.7, 0.7, 0.7); 
+                    }
+                    else {
+                        transmission = Color(0.3, 0.3, 0.3);
+                    }
+                    break;
+                }
+            
+        }
+        res = res * transmission;
+    }
 
     return res;
 }

@@ -9,6 +9,7 @@
 #include "Scene.hpp"
 #include "Sphere.hpp"
 #include "Tracer.hpp"
+#include "Plan.hpp"
 #define M_PI 3.141592653589793
 #define INFINITY 1e8
 
@@ -273,11 +274,21 @@ int main(int argc, char** argv)
     light.translate(0, 20, -20); // La lumière est située au dessus de la sphere rouge
     light.id = Color(0.8,0.8,0.8);
     light.is = Color(0.5,0.5,0.5);
+
+    Plan plan(Color(0.20,0.20,0.20), Point(0, -5, 0));
+    plan.normale = Vector(0, 1, 0);
+    plan.material.diffuse = Color(0, 0, 0);
+    plan.material.specular = Color(0, 0, 0);
+
+    
     scene.addObject(&sphere);
     scene.addObject(&sphere2);
     scene.addObject(&sphere3);
     scene.addObject(&sphere4);
-    scene.addObject(&Globe);
+    scene.addObject(&plan);
+    //scene.addObject(&Globe);
+
+    
     scene.addLight(light);
 
     

@@ -75,3 +75,10 @@ Color& Color::operator*(float a) {
 	this->tabColor[2] *= a;
 	return *this;
 }
+
+Color operator*(Color c, Color c2) {
+	float r = c[0] * c2[0];
+	float g = c[1] * c2[1];
+	float b = c[2] * c2[2];
+	return Color(r, g, b);
+}

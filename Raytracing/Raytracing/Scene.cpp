@@ -33,6 +33,9 @@ int Scene::nbLights() {
 Light Scene::getLight(int index) {
 	return this->lights[index];
 }
+std::vector<Object*> Scene::getObjects() {
+	return objects;
+}
 
 Object* Scene::closer_intersected(Ray& ray, Point& impact) {
 	float tnear = INFINITY;

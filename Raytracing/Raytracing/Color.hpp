@@ -9,6 +9,7 @@ public:
 	Color(const Color&);
 	float operator[](int i);
 	friend Color operator+(Color,Color);
+	friend Color operator*(Color, Color);
 	Color& operator+=(Color);
 	Color& operator*(float);
 	Color mul(Color c);
