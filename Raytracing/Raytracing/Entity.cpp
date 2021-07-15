@@ -11,9 +11,11 @@ Entity::Entity(Matrix trans) {
 }
 
 void Entity::translate(float x, float y, float z) {
-	trans(0, 3) = trans(0, 3) + x;
-	trans(1, 3) = trans(1, 3) + y;
-	trans(2, 3) = trans(2, 3) + z;
+	Matrix tmp = Matrix();
+	tmp(0, 3) = trans(0, 3) + x;
+	tmp(1, 3) = trans(1, 3) + y;
+	tmp(2, 3) = trans(2, 3) + z;
+	trans = tmp * trans;
 	transInv = trans.inverse();
 
 }
@@ -60,16 +62,16 @@ void Entity::rotateZ(float deg) {
 	transInv = trans.inverse();
 }
 
-Point Entity::localToGlobal(const Point& p) {
+Point Entity::localToGlobal(Point& p) {
 	return transInv * p;					 	    	 	 		 
 }
 
-Vector Entity::localToGlobal(const Vector& v) {
+Vector Entity::localToGlobal(Vector& v) {
 
 	return transInv * v;						 	    	 	 		 
 }
 
-Ray Entity::localToGlobal(const Ray& r) {
+Ray Entity::localToGlobal(Ray& r) {
 	Point p = transInv * (r.origin);
 	Vector v = transInv * (r.vector);
 	Ray ray(p, v);

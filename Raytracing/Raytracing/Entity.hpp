@@ -18,9 +18,9 @@ public:
 	void rotateY(float);
 	void rotateZ(float);
 
-	Point localToGlobal(const Point& p);
-	Vector localToGlobal(const Vector& v);
-	Ray localToGlobal(const Ray& r);
+	Point localToGlobal(Point& p);
+	Vector localToGlobal(Vector& v);
+	Ray localToGlobal(Ray& r);
 
 	Point globalToLocal(Point p);
 	Vector globalToLocal(Vector v);

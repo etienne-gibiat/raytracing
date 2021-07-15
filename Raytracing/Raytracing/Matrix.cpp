@@ -22,6 +22,7 @@ float& Matrix::operator()(int i, int j) {
 	return m_tab[i * m_cols + j];
 }
 
+
 Matrix& Matrix::inverse() {
 
     float inv[16], det;
@@ -58,35 +59,75 @@ Matrix& Matrix::inverse() {
 	//A modifier
 }
 
-Matrix& Matrix::operator*(const Matrix& m) {
+Matrix& Matrix::operator*(Matrix& m) {
+
+    int i, j, k;
+    Matrix r; 
+    float val;
+
+
+    for (i = 0; i < 4; i++)
+        for (j = 0; j < 4; j++)
+        {
+            val = 0;
+            for (k = 0; k < 4; k++)
+                val += this->operator()(i, k) * m(k, j);
+            r(i, j) = val;
+        }
+    
+
 	// a tester
-    for (int row = 0; row < 4; row++) {
+    /*for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
             for (int inner = 0; inner < 3; inner++) {
                m_tab[row * m_cols + col] = m_tab[row * m_cols + col] * m.m_tab[inner * m_cols + col];	
             }
         }
-    }
+    }*/
 
-	return *this;
+	return r;
 }
 
-Point& Matrix::operator*(const Point& p) {
-	
-	float x = this->m_tab[0] * p.tabPoint[0] + this->m_tab[1] * p.tabPoint[0] + this->m_tab[2] * p.tabPoint[0];
+Point& Matrix::operator*(Point& p) {
+
+    int i, j;
+    double val;
+    Point res = Point();
+
+    for (i = 0; i < 3; i++)
+    {
+        val = 0;
+        for (j = 0; j < 4; j++)
+            val += this->operator()(i, j) * p[j];
+        res[i] = val;
+    }
+
+	/*float x = this->m_tab[0] * p.tabPoint[0] + this->m_tab[1] * p.tabPoint[0] + this->m_tab[2] * p.tabPoint[0];
 	float y = this->m_tab[4] * p.tabPoint[1] + this->m_tab[5] * p.tabPoint[1] + this->m_tab[6] * p.tabPoint[1];
 	float z = this->m_tab[8] * p.tabPoint[2] + this->m_tab[9] * p.tabPoint[2] + this->m_tab[10] * p.tabPoint[2];
-	Point res(x, y, z);
+	Point res(x, y, z);*/
 
 	return res;
 }
 
-Vector& Matrix::operator*( const Vector& v) {
+Vector& Matrix::operator*(Vector& v) {
 
-	float x = this->m_tab[0] * v.tabVector[0] + this->m_tab[1] * v.tabVector[0] + this->m_tab[2] * v.tabVector[0];
+    int i, j;
+    double val;
+    Vector res = Vector();
+
+    for (i = 0; i < 3; i++)
+    {
+        val = 0;
+        for (j = 0; j < 4; j++)
+            val += this->operator()(i, j) * v[j];
+        res[i] = val;
+    }
+
+	/*float x = this->m_tab[0] * v.tabVector[0] + this->m_tab[1] * v.tabVector[0] + this->m_tab[2] * v.tabVector[0];
 	float y = this->m_tab[4] * v.tabVector[0] + this->m_tab[5] * v.tabVector[1] + this->m_tab[6] * v.tabVector[1];
 	float z = this->m_tab[8] * v.tabVector[0] + this->m_tab[9] * v.tabVector[2] + this->m_tab[10] * v.tabVector[2];
-	Vector res(x, y, z);
+	Vector res(x, y, z);*/
 
 	return res;
 }

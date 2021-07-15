@@ -27,20 +27,30 @@ void Tracer::render(Scene scene) {
     Bitmap bmp(width, height);
     Color pixelColor;
     /*Color* image = new Color[width * height], * pixel = image;
+    */
+    const float aspectRatio = float(width) / float(height);
     float invWidth = 1 / float(width), invHeight = 1 / float(height);
     float fov = 30, aspectratio = width / float(height);
-    float angle = tan(M_PI * 0.5 * fov / 180.);*/
+    float angle = tan(M_PI * 0.5 * fov / 180.);
     // Trace rays
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-            /*float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
-            float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
-            Vector raydir(xx, yy, -1);
-            raydir.normalized();
-            *pixel = trace(Vector(), raydir, spheres, 0);*/
 
-            Camera camera(30);
-            Ray ray = camera.getRay(x, y);
+
+            float xx = aspectRatio * 2.f * (float(x - width / 2) + 0.5f) / width;
+            float yy = -2.f * (float(y - height / 2) + 0.5f) / height;
+
+            /*float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
+            float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;*/
+
+            Point origine = Point();
+            Vector raydir(xx, yy, 1);
+            raydir.normalized();
+
+
+            //Camera camera(30);
+            //Ray ray = camera.getRay(x, y);
+            Ray ray(origine, raydir);
 
             pixelColor = trace(ray, scene, 5);
 

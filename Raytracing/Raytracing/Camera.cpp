@@ -9,8 +9,8 @@ Camera::Camera(float focal) : Entity() {
 }
 
 Ray Camera::getRay(float x, float y) {
-    Point p(x * 2 - 1, y * 2 - 1, 0.);
-    Vector v(0, 0, 0);
+    Point p(0, 0, 0.);
+    Vector v(x * 2 - 1, y * 2 - 1, 1);
     Ray r(p, v);
     Point foc(0, 0, focal);
     r.vector = (r.origin - foc);

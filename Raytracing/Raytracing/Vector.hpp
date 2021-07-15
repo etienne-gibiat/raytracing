@@ -14,7 +14,7 @@ public:
     friend Point& operator*(Point, float);
     friend Point& operator/(Point, float);
     //Point& operator=(Vector);
-    float operator[](int i);
+    float& operator[](int i);
     Point operator-();
 
 

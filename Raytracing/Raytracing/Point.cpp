@@ -14,7 +14,7 @@ Point::Point(float x, float y, float z) {
 
 }
 
-float Point::operator[](int i) {
+float& Point::operator[](int i) {
 	return tabPoint[i];
 
 }
