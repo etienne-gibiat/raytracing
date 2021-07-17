@@ -18,13 +18,13 @@ public:
 	void rotateY(float);
 	void rotateZ(float);
 
-	Point localToGlobal(const Point& p);
-	Vector localToGlobal(const Vector& v);
-	Ray localToGlobal(const Ray& r);
+	Point localToGlobal(const Point& p) const;
+	Vector localToGlobal(const Vector& v) const;
+	Ray localToGlobal(const Ray& r) const;
 
-	Point globalToLocal(Point p);
-	Vector globalToLocal(Vector v);
-	Ray globalToLocal(Ray r);
+	Point globalToLocal(const Point& p) const;
+	Vector globalToLocal(const Vector& v) const;
+	Ray globalToLocal(const Ray& r) const;
 
 
 

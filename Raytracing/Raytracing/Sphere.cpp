@@ -39,7 +39,7 @@ Ray Sphere::getNormal(const Point& impact, const Point& observator) {
 bool Sphere::intersect(const Ray & ray, Point & impact, float& t0, float& t1){
 
 		//Seulement le code ici fonctionne, à voir comment changer ca
-		Point l = position - ray.origin;
+		/*Point l = position - ray.origin;
 		Vector tmp2 = ray.vector;
 		Point tmp(tmp2[0], tmp2[1], tmp2[2]);
 		float tca = l.dot(tmp);
@@ -48,9 +48,9 @@ bool Sphere::intersect(const Ray & ray, Point & impact, float& t0, float& t1){
 		if (d2 > radius * radius) return false;
 		float thc = sqrt((radius * radius) - d2);
 		t0 = tca - thc;
-		t1 = tca + thc;
+		t1 = tca + thc;*/
 
-	/*Ray r = globalToLocal(ray);
+	Ray r = globalToLocal(ray);
 	r.normalized();
 	float a = r.vector.dot(r.vector);
 	float b = 2 * r.vector.dot(r.origin);
@@ -70,14 +70,7 @@ bool Sphere::intersect(const Ray & ray, Point & impact, float& t0, float& t1){
 
 	Vector v = r.origin + t * r.vector;
 	Point p(v[0], v[1], v[2]);
-	impact = localToGlobal(p);*/
-	/*Point l = position - ray.origin;
-		Vector tmp2 = ray.vector;
-		Point tmp(tmp2[0], tmp2[1], tmp2[2]);
-		float tca = l.dot(tmp);
-		float d2 = l.dot(l) - tca * tca;
-		float thc = sqrt((radius * radius) - d2);
-		t0 = tca - thc;
-		t1 = tca + thc;*/
+	impact = localToGlobal(p);
+	t0 = t1 = t;
 	return true;
 }

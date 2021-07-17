@@ -9,12 +9,11 @@ Camera::Camera(float focal) : Entity() {
 }
 
 Ray Camera::getRay(float x, float y) {
-    Point p(x * 2 - 1, y * 2 - 1, 0.);
-    Vector v(0, 0, 0);
-    Ray r(p, v);
-    Point foc(0, 0, focal);
-    r.vector = (r.origin - foc);
-    r = localToGlobal(r);
-    r.normalized();
-    return r;
+	Ray r(-1 + 2 * x, -1 + 2 * y, 0, 0, 0, 0);
+	Point foc(0, 0, focal);
+	r.vector = (r.origin - foc);
+	r = localToGlobal(r);
+	Ray tmp = globalToLocal(r);
+	r.normalized();
+	return r;
 }

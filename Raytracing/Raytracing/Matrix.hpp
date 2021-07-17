@@ -10,8 +10,8 @@ public:
 	Matrix();
 	Matrix(const Matrix& matrix);
 	float& operator()(int i, int j);
-	Point& operator*(const Point&);
-	Vector& operator*(const Vector&);
+	Point& operator*(const Point&) const;
+	Vector& operator*(const Vector&) const;
 	Matrix& inverse();
 	Matrix& operator*(Matrix&);
 

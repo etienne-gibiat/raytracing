@@ -46,10 +46,10 @@ Object* Scene::closer_intersected(Ray& ray, Point& impact) {
 			if (t0 < 0) t0 = t1;
 			if (t0 < tnear) {
 				tnear = t0;
-				Vector phit = ray.origin + ray.vector * tnear;
-				impact[0] = phit[0];
-				impact[1] = phit[1];
-				impact[2] = phit[2];
+				//Vector phit = ray.origin + ray.vector * tnear;
+				//impact[0] = phit[0];
+				//impact[1] = phit[1];
+				//impact[2] = phit[2];
 				obj = objects[i];
 				return obj;
 			}

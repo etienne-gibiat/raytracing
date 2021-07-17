@@ -87,21 +87,21 @@ Matrix& Matrix::operator*(Matrix& m) {
     return r;
 }
 
-Point& Matrix::operator*(const Point& p) {
+Point& Matrix::operator*(const Point& p) const{
 	
-	float x = this->m_tab[0] * p.tabPoint[0] + this->m_tab[1] * p.tabPoint[0] + this->m_tab[2] * p.tabPoint[0];
-	float y = this->m_tab[4] * p.tabPoint[1] + this->m_tab[5] * p.tabPoint[1] + this->m_tab[6] * p.tabPoint[1];
-	float z = this->m_tab[8] * p.tabPoint[2] + this->m_tab[9] * p.tabPoint[2] + this->m_tab[10] * p.tabPoint[2];
+	float x = this->m_tab[0] * p.tabPoint[0] + this->m_tab[1] * p.tabPoint[1] + this->m_tab[2] * p.tabPoint[2] + this->m_tab[3] * 1;
+	float y = this->m_tab[4] * p.tabPoint[0] + this->m_tab[5] * p.tabPoint[1] + this->m_tab[6] * p.tabPoint[2] + this->m_tab[7] * 1;
+	float z = this->m_tab[8] * p.tabPoint[0] + this->m_tab[9] * p.tabPoint[1] + this->m_tab[10] * p.tabPoint[2] + this->m_tab[11] * 1;
 	Point res(x, y, z);
 
 	return res;
 }
 
-Vector& Matrix::operator*( const Vector& v) {
+Vector& Matrix::operator*( const Vector& v) const {
 
-	float x = this->m_tab[0] * v.tabVector[0] + this->m_tab[1] * v.tabVector[0] + this->m_tab[2] * v.tabVector[0];
-	float y = this->m_tab[4] * v.tabVector[0] + this->m_tab[5] * v.tabVector[1] + this->m_tab[6] * v.tabVector[1];
-	float z = this->m_tab[8] * v.tabVector[0] + this->m_tab[9] * v.tabVector[2] + this->m_tab[10] * v.tabVector[2];
+	float x = this->m_tab[0] * v.tabVector[0] + this->m_tab[1] * v.tabVector[1] + this->m_tab[2] * v.tabVector[2] + this->m_tab[3] * 0;
+	float y = this->m_tab[4] * v.tabVector[0] + this->m_tab[5] * v.tabVector[1] + this->m_tab[6] * v.tabVector[2] + this->m_tab[7] * 0;
+	float z = this->m_tab[8] * v.tabVector[0] + this->m_tab[9] * v.tabVector[1] + this->m_tab[10] * v.tabVector[2] + this->m_tab[11] * 0;
 	Vector res(x, y, z);
 
 	return res;

@@ -30,7 +30,7 @@ void Tracer::render(Scene scene) {
 
     const float gamma = 1.f / 2.2f;
 
-    unsigned width = 640, height = 480;
+    unsigned width = 640, height = 640;
     cv::Mat mat = cv::Mat::ones(height, width, CV_8UC3);
     Color pixelColor;
     Color* image = new Color[width * height], * pixel = image;
@@ -40,24 +40,29 @@ void Tracer::render(Scene scene) {
     
     // Trace rays
     for (unsigned y = 0; y < height; ++y) {
-        cv::imshow("Test", mat);
-        cv::waitKey(1);
+        
         for (unsigned x = 0; x < width; ++x, ++pixel) {
             float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
             float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
             /*Vector raydir(xx, yy, -1);
             raydir.normalized();
             *pixel = trace(Vector(), raydir, spheres, 0);*/
-            Ray ray(0, 0, 0, xx, yy, -1);
-            Camera camera(90);
-            //Ray ray = camera.getRay(x, y);
-            ray.normalized();
+            //Ray ray(0, 0, 0, xx, yy, -1);
+            //ray.normalized();
+            Camera camera(5);
+            camera.translate(0, 0, -20);
+            float xprim = (float)x / (float)width;
+            float yprim = (float)y / (float)height;
+            Ray ray = camera.getRay(xprim, yprim);
+            
             *pixel = trace(ray, scene, 5);
             mat.at<cv::Vec3b>(y, x) = cv::Vec3b(pixel->tabColor[2]*255, pixel->tabColor[1]*255, pixel->tabColor[0]*255);
             
         }
     }
-   
+    cv::imshow("Raytracing", mat);
+    cv::waitKey(0);
+    cv::imwrite("Raytracing.jpg", mat);
     
     // Save result to a PPM image (keep these flags if you compile under Windows)
     std::ofstream ofs("./rendu.ppm", std::ios::out | std::ios::binary);
@@ -74,7 +79,7 @@ void Tracer::render(Scene scene) {
 
 Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene) {
 
-   /* Material m = obj->getMaterial(impact);
+   Material m = obj->getMaterial(impact);
     Color amb = m.ambiant.mul(scene.getAmbiant());
 
     Color diff = Color();
@@ -97,8 +102,8 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
         }
     }
     Color Phong = diff + amb + spec;
-    return Phong;*/
-    Material mat = obj->getMaterial(impact);
+    return Phong;
+    /*Material mat = obj->getMaterial(impact);
     Color Ka = mat.ambiant;
     Color Kd = mat.diffuse;
     Color Ks = mat.specular;
@@ -122,7 +127,7 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
             c += (light.is).mul(Ks) * pow(beta, mat.shininess);
     }
 
-    return c;
+    return c;*/
 
 }
 
@@ -137,7 +142,7 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
         res = scene.getBackground();
     else {
         res = getImpactColor(ray, object, impact, scene);
-        Light l = scene.getLight(0);
+        /*Light l = scene.getLight(0);
         Ray lv = l.getRayToLight(impact);
 
         Color transmission(1,1,1);
@@ -159,7 +164,7 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
                 }
             
         }
-        res = res * transmission;
+        res = res * transmission;*/
     }
 
     return res;

@@ -208,6 +208,7 @@ void render(const std::vector<Spheres>& spheres)
             Vec3f raydir(xx, yy, -1);
             raydir.normalize();
             *pixel = trace(Vec3f(0), raydir, spheres, 0);
+            
         }
     }
     // Save result to a PPM image (keep these flags if you compile under Windows)
@@ -253,38 +254,43 @@ int main(int argc, char** argv)
     Sphere sphere4(color4, Point(-5.5, 0, -15), 3); //Une sphere
     Sphere Globe(Color(0.20, 0.20, 0.20), Point(0.0,-10004,-20), 10000); //sert de sol
 
-
+    sphere.translate(0, 0, 80);
     sphere.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere.material.specular = Color(0.75, 0.75, 0.75);
     sphere.material.shininess = 3;
 
+    sphere2.translate(5, -1, -15);
     sphere2.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere2.material.specular = Color(0.75, 0.75, 0.75);
     sphere2.material.shininess = 3;
 
+    sphere3.translate(5, 0, -25);
     sphere3.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere3.material.specular = Color(0.75, 0.75, 0.75);
     sphere3.material.shininess = 3;
 
+    sphere4.translate(-5.5, 0, -15);
     sphere4.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere4.material.specular = Color(0.75, 0.75, 0.75);
     sphere4.material.shininess = 3;
 
     Light light = Light();
-    light.translate(0, 20, -20); // La lumière est située au dessus de la sphere rouge
+    light.translate(0, -40, 80); // La lumière est située au dessus de la sphere rouge
     light.id = Color(0.8,0.8,0.8);
     light.is = Color(0.5,0.5,0.5);
 
     Plan plan(Color(0.20,0.20,0.20), Point(0, -5, 0));
+    plan.translate(0, -5, 0);
+    plan.rotateZ(90);
     plan.normale = Vector(0, 1, 0);
     plan.material.diffuse = Color(0, 0, 0);
     plan.material.specular = Color(0, 0, 0);
 
     
     scene.addObject(&sphere);
-    scene.addObject(&sphere2);
-    scene.addObject(&sphere3);
-    scene.addObject(&sphere4);
+    //scene.addObject(&sphere2);
+    //scene.addObject(&sphere3);
+    //scene.addObject(&sphere4);
     scene.addObject(&plan);
     //scene.addObject(&Globe);
 

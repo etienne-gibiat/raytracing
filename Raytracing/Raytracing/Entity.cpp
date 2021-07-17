@@ -62,16 +62,16 @@ void Entity::rotateZ(float deg) {
 	transInv = trans.inverse();
 }
 
-Point Entity::localToGlobal(const Point& p) {
+Point Entity::localToGlobal(const Point& p) const {
 	return transInv * p;					 	    	 	 		 
 }
 
-Vector Entity::localToGlobal(const Vector& v) {
+Vector Entity::localToGlobal(const Vector& v) const {
 
 	return transInv * v;						 	    	 	 		 
 }
 
-Ray Entity::localToGlobal(const Ray& r) {
+Ray Entity::localToGlobal(const Ray& r) const {
 	Point p = transInv * (r.origin);
 	Vector v = transInv * (r.vector);
 	Ray ray(p, v);
@@ -79,15 +79,15 @@ Ray Entity::localToGlobal(const Ray& r) {
 
 }
 
-Point Entity::globalToLocal(Point p) {
+Point Entity::globalToLocal(const Point& p) const {
 	return trans * p;
 }
 
-Vector Entity::globalToLocal(Vector v) {
+Vector Entity::globalToLocal(const Vector& v) const {
 	return trans * v;
 }
 
-Ray Entity::globalToLocal(Ray r) {
+Ray Entity::globalToLocal(const Ray& r) const {
 	Point p = trans * (r.origin);
 	Vector v = trans * (r.vector);
 	Ray ray(p, v);
