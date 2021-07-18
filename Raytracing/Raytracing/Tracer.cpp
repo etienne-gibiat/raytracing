@@ -63,8 +63,8 @@ void Tracer::render(Scene scene) {
         }
     }
     cv::imshow("Raytracing", mat);
-    //cv::waitKey(0);
-    //cv::imwrite("Raytracing.jpg", mat);
+    cv::waitKey(0);
+    cv::imwrite("Raytracing.jpg", mat);
     
     // Save result to a PPM image (keep these flags if you compile under Windows)
     /*std::ofstream ofs("./rendu.ppm", std::ios::out | std::ios::binary);

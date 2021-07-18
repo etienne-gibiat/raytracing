@@ -2,19 +2,18 @@
 
 Plan::Plan() : Object::Object()
 {
-	this->position = Point(0, 0, 0);
+
 }
 
-Plan::Plan(Color color, Point position)
+Plan::Plan(Color color)
 {
 	this->material = Material(color, color, color, 0);
-	this->position = Point(position);
+
 }
 
-Plan::Plan(Material material, Point position)
+Plan::Plan(Material material)
 {
 	this->material = Material(material);
-	this->position = Point(position);
 }
 
 Ray Plan::getNormal(const Point& impact, const Point& observator) {

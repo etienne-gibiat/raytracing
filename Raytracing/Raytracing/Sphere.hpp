@@ -6,8 +6,8 @@ class Sphere : virtual public Object
 public:
 
 	Sphere();
-	Sphere(Color color, Point position, float radius);
-	Sphere(Material material, Point position, float radius);
+	Sphere(Color color);
+	Sphere(Material material);
 
 	//Point position;
 	float radius;

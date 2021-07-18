@@ -28,10 +28,22 @@ float Vector::dot(Vector v) {
 	return res;
 }
 
+
 float Vector::dot(Point p) {
 	float res = tabVector[0] * p[0] + tabVector[1] * p[1] + tabVector[2] * p[2];
 	return res;
 }
+
+Vector Vector::cross(Vector v) {
+
+	Vector res = Vector();
+	res[0] = tabVector[1] * v[2] - tabVector[2] * v[1];
+	res[1] = tabVector[2] * v[0] - tabVector[0] * v[2];
+	res[2] = tabVector[0] * v[1] - tabVector[1] * v[0];
+	return res;
+}
+
+
 
 float Vector::norm() {
 	float norme = pow(tabVector[0],2) + pow(tabVector[1], 2) + pow(tabVector[2], 2);

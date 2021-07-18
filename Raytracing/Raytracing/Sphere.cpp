@@ -2,22 +2,19 @@
 
 Sphere::Sphere() : Object::Object()
 {
-	this->position = Point(0, 0, 0);
-	this->radius = 1;
+
 }
 
-Sphere::Sphere(Color color, Point position, float radius)
+Sphere::Sphere(Color color)
 {
 	this->material = Material(color, color, color, 0);
-	this->position = Point(position);
-	this->radius = radius;
+
 }
 
-Sphere::Sphere(Material material, Point position, float radius)
+Sphere::Sphere(Material material)
 {
 	this->material = Material(material);
-	this->position = Point(position);
-	this->radius = radius;
+
 }
 
 Ray Sphere::getNormal(const Point& impact, const Point& observator) {

@@ -6,8 +6,8 @@ class Cube : virtual public Object
 public:
 	
 	Cube();
-	Cube(Color color, float cote);
-	Cube(Material material, float cote);
+	Cube(Color color);
+	Cube(Material material);
 
 	float cote;
 

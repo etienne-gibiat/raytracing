@@ -9,6 +9,7 @@
 #include "Scene.hpp"
 #include "Sphere.hpp"
 #include "Cube.hpp"
+#include "Triangle.hpp"
 #include "Tracer.hpp"
 #include "Plan.hpp"
 #define M_PI 3.141592653589793
@@ -249,11 +250,11 @@ int main(int argc, char** argv)
     Color color4(0.90,0.90,0.90);
     Scene scene = Scene();
     //Sphere sphere(color, Point(1200, 1200, 7800), 1);
-    Sphere sphere(color, Point(0, 0, -20), 4); //Une sphere
-    Sphere sphere2(color2, Point(5, -1, -15), 2); //Une sphere
-    Sphere sphere3(color3, Point(5, 0, -25), 3); //Une sphere
-    Sphere sphere4(color4, Point(-5.5, 0, -15), 3); //Une sphere
-    Sphere Globe(Color(0.20, 0.20, 0.20), Point(0.0,-10004,-20), 10000); //sert de sol
+    Sphere sphere(color); //Une sphere
+    Sphere sphere2(color2); //Une sphere
+    Sphere sphere3(color3); //Une sphere
+    Sphere sphere4(color4); //Une sphere
+    Sphere Globe(Color(0.20, 0.20, 0.20)); //sert de sol
 
     sphere.translate(0, 0, 30);
     sphere.scale(0.4);
@@ -280,30 +281,43 @@ int main(int argc, char** argv)
     sphere4.material.shininess = 3;
 
 
-    Cube cube(color3, 10);
-    cube.translate(0, 0, 20);
-    cube.rotateX(30);
-    cube.rotateY(30);
-    cube.rotateZ(40);
+    //Cube cube(color3);
+    //cube.material.diffuse = Color(0.25, 0.25, 0.25);
+    //cube.material.specular = Color(0.75, 0.75, 0.75);
+    //cube.material.shininess = 3;
+    //cube.translate(0, 0, 33);
+    //cube.rotateX(30);
+    //cube.rotateY(30);
+    //cube.rotateZ(40);
+
+    Triangle trianlge(color3, Vector(-1, 1, 0), Vector(1, -1, 0));
+    trianlge.material.diffuse = Color(0.25, 0.25, 0.25);
+    trianlge.material.specular = Color(0.75, 0.75, 0.75);
+    trianlge.material.shininess = 3;
+    trianlge.translate(2, 0, 10);
+    //cube.rotateX(30);
+    //trianlge.rotateY(180);
+    //cube.rotateZ(40);
 
     Light light = Light();
     light.translate(0, -20, -30); // La lumi�re est situ�e au dessus de la sphere rouge
     light.id = Color(0.8,0.8,0.8);
     light.is = Color(0.5,0.5,0.5);
 
-    Plan plan(Color(0.20,0.20,0.20), Point(0, 3, 0));
+    Plan plan(Color(0.20,0.20,0.20));
     plan.translate(0, -3, 0);
     //plan.rotateX(90);
     plan.normale = Vector(0, 1, 0);
     plan.material.diffuse = Color(0, 0, 0);
     plan.material.specular = Color(0, 0, 0);
 
-    
-    scene.addObject(&sphere);
+    scene.addObject(&trianlge);
+    //scene.addObject(&sphere);
     scene.addObject(&sphere2);
     scene.addObject(&sphere3);
     scene.addObject(&sphere4);
-    scene.addObject(&cube);
+    //scene.addObject(&cube);
+    
     scene.addObject(&plan);
     //scene.addObject(&Globe);
 
@@ -320,7 +334,7 @@ int main(int argc, char** argv)
         Tracer tracer = Tracer();
         tracer.render(scene);
 
-        sphere.translate(n, 0, 0);
+        //sphere.translate(n, 0, 0);
 
         count++;
 

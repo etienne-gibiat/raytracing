@@ -2,22 +2,19 @@
 
 Cube::Cube() : Object::Object()
 {
-	this->position = Point(0, 0, 0);
-	this->cote = 1;
+
 }
 
-Cube::Cube(Color color, float cote)
+Cube::Cube(Color color)
 {
 	this->material = Material(color, color, color, 0);
-	this->position = Point(position);
-	this->cote = cote;
+
 }
 
-Cube::Cube(Material material, float cote)
+Cube::Cube(Material material)
 {
 	this->material = Material(material);
-	this->position = Point(position);
-	this->cote = cote;
+
 }
 
 Ray Cube::getNormal(const Point& impact, const Point& observator) {

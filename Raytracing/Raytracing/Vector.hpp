@@ -29,6 +29,7 @@ public:
     Vector& normalized();
     float dot(Vector);
     float dot(Point);
+    Vector cross(Vector v);
     friend Vector& operator+(Vector, Vector);
     friend Vector& operator+(Point, Vector);
     friend Vector& operator-(Vector, Vector);
