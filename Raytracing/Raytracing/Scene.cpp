@@ -1,4 +1,5 @@
 #include "Scene.hpp"
+#include <math.h> 
 
 Scene::Scene()
 {
@@ -40,8 +41,13 @@ std::vector<Object*> Scene::getObjects() {
 Object* Scene::closer_intersected(Ray& ray, Point& impact) {
 	float tnear = INFINITY;
 	Object* obj = NULL;
+	float t0 = INFINITY, t1 = INFINITY;
+
+
+
+
 	for (int i = 0; i < objects.size(); i ++) {
-		float t0 = INFINITY, t1 = INFINITY;
+		
 		if (objects[i]->intersect(ray, impact, t0, t1)) {
 			if (t0 < 0) t0 = t1;
 			if (t0 < tnear) {
@@ -52,6 +58,7 @@ Object* Scene::closer_intersected(Ray& ray, Point& impact) {
 				//impact[2] = phit[2];
 				obj = objects[i];
 				return obj;
+
 			}
 			
 		}

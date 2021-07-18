@@ -8,6 +8,7 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "Scene.hpp"
 #include "Sphere.hpp"
+#include "Cube.hpp"
 #include "Tracer.hpp"
 #include "Plan.hpp"
 #define M_PI 3.141592653589793
@@ -254,6 +255,8 @@ int main(int argc, char** argv)
     Sphere sphere4(color4, Point(-5.5, 0, -15), 3); //Une sphere
     Sphere Globe(Color(0.20, 0.20, 0.20), Point(0.0,-10004,-20), 10000); //sert de sol
 
+    Cube cube(color3, 10);
+
     sphere.translate(0, 0, 80);
     sphere.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere.material.specular = Color(0.75, 0.75, 0.75);
@@ -274,6 +277,11 @@ int main(int argc, char** argv)
     sphere4.material.specular = Color(0.75, 0.75, 0.75);
     sphere4.material.shininess = 3;
 
+    cube.translate(0, 0, 20);
+    cube.rotateX(30);
+    cube.rotateY(30);
+    cube.rotateZ(40);
+
     Light light = Light();
     light.translate(0, -40, 80); // La lumière est située au dessus de la sphere rouge
     light.id = Color(0.8,0.8,0.8);
@@ -287,10 +295,11 @@ int main(int argc, char** argv)
     plan.material.specular = Color(0, 0, 0);
 
     
-    scene.addObject(&sphere);
+    //scene.addObject(&sphere);
     //scene.addObject(&sphere2);
     //scene.addObject(&sphere3);
     //scene.addObject(&sphere4);
+    scene.addObject(&cube);
     scene.addObject(&plan);
     //scene.addObject(&Globe);
 
@@ -298,8 +307,26 @@ int main(int argc, char** argv)
     scene.addLight(light);
 
     
-    Tracer tracer = Tracer();
-    tracer.render(scene);
+    int n = -1;
+    int count = 0;
+    while (true) {
+
+        cv::waitKey(1);
+
+        Tracer tracer = Tracer();
+        tracer.render(scene);
+
+        sphere.translate(n, 0, 0);
+
+        count++;
+
+        if (count == 10) {
+            n *= -1;
+            count = 0;
+        }
+
+    }
+    
     
 
     return 0;

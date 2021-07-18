@@ -30,7 +30,8 @@ void Tracer::render(Scene scene) {
 
     const float gamma = 1.f / 2.2f;
 
-    unsigned width = 640, height = 640;
+    unsigned width = 850, height = 480;
+    //unsigned width = 300, height = 200;
     cv::Mat mat = cv::Mat::ones(height, width, CV_8UC3);
     Color pixelColor;
     Color* image = new Color[width * height], * pixel = image;
@@ -49,8 +50,9 @@ void Tracer::render(Scene scene) {
             *pixel = trace(Vector(), raydir, spheres, 0);*/
             //Ray ray(0, 0, 0, xx, yy, -1);
             //ray.normalized();
-            Camera camera(5);
+            Camera camera(5, aspectratio);
             camera.translate(0, 0, -20);
+
             float xprim = (float)x / (float)width;
             float yprim = (float)y / (float)height;
             Ray ray = camera.getRay(xprim, yprim);
@@ -61,18 +63,18 @@ void Tracer::render(Scene scene) {
         }
     }
     cv::imshow("Raytracing", mat);
-    cv::waitKey(0);
-    cv::imwrite("Raytracing.jpg", mat);
+    //cv::waitKey(0);
+    //cv::imwrite("Raytracing.jpg", mat);
     
     // Save result to a PPM image (keep these flags if you compile under Windows)
-    std::ofstream ofs("./rendu.ppm", std::ios::out | std::ios::binary);
+    /*std::ofstream ofs("./rendu.ppm", std::ios::out | std::ios::binary);
     ofs << "P6\n" << width << " " << height << "\n255\n";
     for (unsigned i = 0; i < width * height; ++i) {
         ofs << (unsigned char)(std::min(float(1), image[i][0]) * 255) <<
             (unsigned char)(std::min(float(1), image[i][1]) * 255) <<
             (unsigned char)(std::min(float(1), image[i][2]) * 255);
     }
-    ofs.close();
+    ofs.close();*/
     delete[] image;
 
 }
