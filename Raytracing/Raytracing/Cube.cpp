@@ -24,16 +24,22 @@ Ray Cube::getNormal(const Point& impact, const Point& observator) {
 
 	Point lp = globalToLocal(impact);
 	Point lo = globalToLocal(observator);
-	if ((lo - Point(0, 0, 0)).norm() < 1) {
-		Vector lp2(lp[0], lp[1], lp[2]);
-		Ray res = localToGlobal(Ray(lp, -lp2));
+	Vector v(0, 0, 0);
+	if (lp[0] > 0.999)v[0] = 1.0;
+	else if (lp[0] < -0.999)v[0] = -1.0;
+	else if (lp[1] > 0.999)v[1] = 1.0;
+	else if (lp[1] < -0.999)v[1] = -1.0;
+	else if (lp[2] > 0.999)v[2] = 1.0;
+	else if (lp[2] < -0.999)v[2] = -1.0;
+	if (lo[0]<1 && lo[0]>-1 && lo[1]<1 && lo[1]>-1 && lo[2]<1 && lo[2]>-1) {
+		Ray res = localToGlobal(Ray(lp, -v));
 		res.normalized();
 		return res;
 	}
-	Vector lp2(lp[0], lp[1], lp[2]);
-	Ray res = localToGlobal(Ray(lp, lp2));
+	Ray res = localToGlobal(Ray(lp, v));
 	res.normalized();
 	return res;
+		
 }
 
 float Cube::interSide(Ray& r, int dim, float offset) {
