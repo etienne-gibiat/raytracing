@@ -21,13 +21,12 @@ void Entity::translate(float x, float y, float z) {
 }
 
 void Entity::scale(float f) {
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 4; j++) {
-            trans(i, j) = trans(i, j) * f;
-        }
-
-    }
-    transInv = trans.inverse();
+	Matrix m;
+	m(0, 0) = f;
+	m(1, 1) = f;
+	m(2, 2) = f;
+	trans = m * trans;
+	transInv = trans.inverse();
 }
 
 

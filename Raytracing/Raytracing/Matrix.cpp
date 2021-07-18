@@ -68,10 +68,9 @@ Matrix& Matrix::operator*(Matrix& m) {
     for (i = 0; i < 4; i++)
         for (j = 0; j < 4; j++)
         {
-            val = 0;
+            r(i, j) = 0;
             for (k = 0; k < 4; k++)
-                val += this->operator()(i, k) * m(k, j);
-            r(i, j) = val;
+                r(i, j) += m_tab[i * m_cols + k] * m(k, j);
         }
 
 

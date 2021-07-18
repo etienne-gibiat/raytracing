@@ -21,9 +21,9 @@ Ray Plan::getNormal(const Point& impact, const Point& observator) {
 
 	Point lp = globalToLocal(impact);
 	Point lo = globalToLocal(observator);
-	float z = 1;
-	if (lo[2] < 0)z = -1;
-	Ray res =  localToGlobal(Ray(lp, Vector(0, 0, z)));
+	float y = 1;
+	if (lo[1] < 0)y = -1;
+	Ray res =  localToGlobal(Ray(lp, Vector(0, y, 0)));
 	res.normalized();
 	return res;
 }
@@ -32,28 +32,13 @@ bool Plan::intersect(const Ray& ray, Point& impact, float& t0, float& t1) {
 
 	Ray lr = globalToLocal(ray);
 	lr.normalized();
-	if (lr.vector[2]<0.0001 && lr.vector[2]>-0.0001)return false;
-	if (lr.vector[2] * lr.origin[2] > 0)return false;
-	float t = -lr.origin[2] / lr.vector[2];
+	if (lr.vector[1]<0.0001 && lr.vector[1]>-0.0001)return false;
+	if (lr.vector[1] * lr.origin[1] > 0)return false;
+	float t = -lr.origin[1] / lr.vector[1];
 	Vector p = lr.origin + t * lr.vector;
 	Point p2(p[0], p[1], p[2]);		 	      	   	  
 	impact = localToGlobal(p2);
 	t0 = t1 = t;
+
 	return true;
-
-	/*float t;
-	float dv;
-	dv = normale.dot(ray.vector);
-	if (dv == 0)
-		return false;
-	t = ((-(normale.dot(ray.origin - position))) / dv);
-	if (t < 0)
-		return false;
-	Vector tmp = ray.origin + ray.vector * t;
-	//tmp.normalized();
-	impact = Point(tmp[0], tmp[1], tmp[2]);
-	t0 = t;
-	t1 = t;
-
-	return true;*/
 }

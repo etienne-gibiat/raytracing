@@ -54,7 +54,7 @@ bool Sphere::intersect(const Ray & ray, Point & impact, float& t0, float& t1){
 	r.normalized();
 	float a = r.vector.dot(r.vector);
 	float b = 2 * r.vector.dot(r.origin);
-	float c = r.origin.dot(r.origin) - radius * radius;
+	float c = r.origin.dot(r.origin) - 1.0;
 	float delta = b * b - 4 * a * c;
 	if (delta < 0)return false;
 

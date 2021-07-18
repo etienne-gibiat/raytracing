@@ -81,7 +81,7 @@ void Tracer::render(Scene scene) {
 
 Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene) {
 
-   Material m = obj->getMaterial(impact);
+   /*Material m = obj->getMaterial(impact);
     Color amb = m.ambiant.mul(scene.getAmbiant());
 
     Color diff = Color();
@@ -104,32 +104,35 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
         }
     }
     Color Phong = diff + amb + spec;
-    return Phong;
-    /*Material mat = obj->getMaterial(impact);
-    Color Ka = mat.ambiant;
-    Color Kd = mat.diffuse;
-    Color Ks = mat.specular;
-    Color Ia = scene.getAmbiant();
-    //Ray normal = obj->getNormal(impact, ray.origin);
-    Point tmp = impact - obj->position;// normal at the intersection point
-    Ray normal(0,0,0, tmp[0],tmp[1],tmp[2]);
-    normal.normalized();
-    Color c = Ka.mul(scene.getAmbiant());
+    return Phong;*/
+    Material m = obj->getMaterial(impact);
+    Ray normal = obj->getNormal(impact, ray.origin);
+    Color c = m.ambiant.mul(scene.getAmbiant());
+    float r;
+    float g;
+    float b;
     for (int l = 0; l < scene.nbLights(); l++) {
         Light light = scene.getLight(l);
-        Vector lv = light.getRayToLight(impact).vector;
+        Vector lv = light.getVectorToLight(impact);
         float alpha = lv.dot(normal.vector);
         if (alpha > 0)
-            c += (light.id).mul(Kd) * alpha;
+            c += (light.id).mul(m.diffuse) * alpha;
 
         Vector rm = (2 * lv.dot(normal.vector) * normal.vector) - lv;
-
+        Vector rm2 = -rm;
         float beta = -rm.dot(ray.vector);
         if (beta > 0)
-            c += (light.is).mul(Ks) * pow(beta, mat.shininess);
+            c += (light.is).mul(m.specular) * pow(beta, m.shininess);
+        Ray toLight(impact, lv);
+        float t0, t1;
+        r = c[0]  ;
+        g = c[1]  ;
+        b = c[2]  ;
     }
+    
+    Color res(r, g, b);
 
-    return c;*/
+    return c;
 
 }
 
@@ -144,13 +147,13 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
         res = scene.getBackground();
     else {
         res = getImpactColor(ray, object, impact, scene);
-        /*Light l = scene.getLight(0);
+        Light l = scene.getLight(0);
         Ray lv = l.getRayToLight(impact);
-
+        lv.origin = lv.origin + Point(lv.vector[0], lv.vector[1], lv.vector[2]);
         Color transmission(1,1,1);
-        Point tmp = lv.origin - impact;
-        Vector lightDirection(tmp[0], tmp[1], tmp[2]);
+        Vector lightDirection = lv.vector;
         lightDirection.normalized();
+        
         std::vector<Object*> obj = scene.getObjects();
         Point impact2 = Point();
         for (unsigned j = 0; j < obj.size(); ++j) {
@@ -166,8 +169,9 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
                 }
             
         }
-        res = res * transmission;*/
+        res = res * transmission;
+        
     }
-
-    return res;
+    Color res2(res[0], res[1], res[2]);
+    return res2;
 }
