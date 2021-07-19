@@ -6,11 +6,14 @@
 class Scene
 {
 public:
+    cv::Mat image;
+
     Scene();
     void addObject(Object* object);
     void addLight(Light light);
     void setAmbiant(const Color& c);
     Color getBackground();
+    Color getBackGroundImage(int,int);
     Color getAmbiant();
     int nbLights();
     Light getLight(int index);

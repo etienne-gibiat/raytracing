@@ -1,5 +1,5 @@
 #include "Sphere.hpp"
-
+#define M_PI 3.141592653589793
 Sphere::Sphere() : Object::Object()
 {
 
@@ -15,6 +15,16 @@ Sphere::Sphere(Material material)
 {
 	this->material = Material(material);
 
+}
+
+Point Sphere::getTextureCoordinates(const Point& p) {
+	Point lp = globalToLocal(p);
+	float rho = std::sqrt(lp.dot(lp));
+	float theta = std::atan2(lp[1], lp[0]);
+	float sigma = std::acos(lp[2] / rho);
+	float x = -theta / (2 * M_PI) + 0.5;
+	float y = sigma / M_PI;		 	      	   	  
+	return Point(x, y, 0);
 }
 
 Ray Sphere::getNormal(const Point& impact, const Point& observator) {

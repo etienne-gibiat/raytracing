@@ -9,6 +9,7 @@
 #include "Scene.hpp"
 #include "Sphere.hpp"
 #include "Cube.hpp"
+#include "CylindreInfini.hpp"
 #include "Triangle.hpp"
 #include "Tracer.hpp"
 #include "Plan.hpp"
@@ -262,6 +263,8 @@ int main(int argc, char** argv)
     sphere.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere.material.specular = Color(0.75, 0.75, 0.75);
     sphere.material.shininess = 3;
+    sphere.Texture = cv::imread("damier2.jpg");
+    sphere.MatDuo = true;
 
     sphere2.translate(-3.5, -1, 27);
     sphere2.scale(0.8);
@@ -281,26 +284,34 @@ int main(int argc, char** argv)
     sphere4.material.shininess = 3;
 
 
-    //Cube cube(color3);
-    //cube.material.diffuse = Color(0.25, 0.25, 0.25);
-    //cube.material.specular = Color(0.75, 0.75, 0.75);
-    //cube.material.shininess = 3;
-    //cube.translate(0, 0, 33);
-    //cube.rotateX(30);
-    //cube.rotateY(30);
-    //cube.rotateZ(40);
+    Triangle triangle(color3, Vector(-1, 1, 0), Vector(1, -1, 0));
+    triangle.material.diffuse = Color(0.25, 0.25, 0.25);
+    triangle.material.specular = Color(0.75, 0.75, 0.75);
+    triangle.material.shininess = 3;
+    triangle.translate(2, 0, 10);
+    
 
-    Triangle trianlge(color3, Vector(-1, 1, 0), Vector(1, -1, 0));
-    trianlge.material.diffuse = Color(0.25, 0.25, 0.25);
-    trianlge.material.specular = Color(0.75, 0.75, 0.75);
-    trianlge.material.shininess = 3;
-    trianlge.translate(2, 0, 10);
-    //cube.rotateX(30);
-    //trianlge.rotateY(180);
-    //cube.rotateZ(40);
+
+    Cube cube(Color(0,1,0));
+    cube.translate(-10, 0, 10);
+    cube.Texture = cv::imread("damier2.jpg");
+    cube.rotateX(30);
+    cube.rotateY(30);
+    cube.rotateZ(40);
+
+    cube.material.diffuse = Color(0.25, 0.25, 0.25);
+    cube.material.specular = Color(0.75, 0.75, 0.75);
+    cube.material.shininess = 3;
+
+    CylindreInfini cylindre(Color(1, 0, 0));
+    cylindre.translate(-15, 5, 30);
+    cylindre.rotateX(1.57);
+    cylindre.material.diffuse = Color(0.25, 0.25, 0.25);
+    cylindre.material.specular = Color(0.75, 0.75, 0.75);
+    cylindre.material.shininess = 3;
 
     Light light = Light();
-    light.translate(0, -20, -30); // La lumi�re est situ�e au dessus de la sphere rouge
+    light.translate(0, -20, -30); // La lumiére est située au dessus de la sphere rouge
     light.id = Color(0.8,0.8,0.8);
     light.is = Color(0.5,0.5,0.5);
 
@@ -311,14 +322,15 @@ int main(int argc, char** argv)
     plan.material.diffuse = Color(0, 0, 0);
     plan.material.specular = Color(0, 0, 0);
 
-    scene.addObject(&trianlge);
-    //scene.addObject(&sphere);
+    scene.addObject(&triangle);
+    scene.addObject(&sphere);
     scene.addObject(&sphere2);
     scene.addObject(&sphere3);
     scene.addObject(&sphere4);
-    //scene.addObject(&cube);
-    
+    scene.addObject(&cylindre);
+    scene.addObject(&cube);
     scene.addObject(&plan);
+   
     //scene.addObject(&Globe);
 
     
@@ -327,14 +339,14 @@ int main(int argc, char** argv)
     
     int n = -1;
     int count = 0;
-    while (true) {
+    //while (true) {
 
-        cv::waitKey(1);
+        //cv::waitKey(1);
 
         Tracer tracer = Tracer();
         tracer.render(scene);
 
-        //sphere.translate(n, 0, 0);
+        /*sphere.translate(n, 0, 0);
 
         count++;
 
@@ -343,7 +355,7 @@ int main(int argc, char** argv)
             count = 0;
         }
 
-    }
+    }*/
     
     
 

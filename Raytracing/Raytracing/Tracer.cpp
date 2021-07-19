@@ -23,7 +23,7 @@
 Tracer::Tracer()
 {
 }
-
+unsigned x, y;
 void Tracer::render(Scene scene) {
 
     
@@ -40,9 +40,9 @@ void Tracer::render(Scene scene) {
     float angle = tan(M_PI * 0.5 * fov / 180.);
     
     // Trace rays
-    for (unsigned y = 0; y < height; ++y) {
+    for (y = 0; y < height; ++y) {
         
-        for (unsigned x = 0; x < width; ++x, ++pixel) {
+        for (x = 0; x < width; ++x, ++pixel) {
             float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
             float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
             /*Vector raydir(xx, yy, -1);
@@ -51,7 +51,7 @@ void Tracer::render(Scene scene) {
             //Ray ray(0, 0, 0, xx, yy, -1);
             //ray.normalized();
             Camera camera(5, aspectratio);
-            camera.translate(0, 0, -20);
+            camera.translate(0, 0, -10);
 
             float xprim = (float)x / (float)width;
             float yprim = (float)y / (float)height;
@@ -108,9 +108,6 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
     Material m = obj->getMaterial(impact);
     Ray normal = obj->getNormal(impact, ray.origin);
     Color c = m.ambiant.mul(scene.getAmbiant());
-    float r;
-    float g;
-    float b;
     for (int l = 0; l < scene.nbLights(); l++) {
         Light light = scene.getLight(l);
         Vector lv = light.getVectorToLight(impact);
@@ -124,13 +121,7 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
         if (beta > 0)
             c += (light.is).mul(m.specular) * pow(beta, m.shininess);
         Ray toLight(impact, lv);
-        float t0, t1;
-        r = c[0]  ;
-        g = c[1]  ;
-        b = c[2]  ;
     }
-    
-    Color res(r, g, b);
 
     return c;
 
@@ -143,10 +134,20 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
     Object* object = scene.closer_intersected(ray, impact);
     
     Color res;
-    if (!object)
-        res = scene.getBackground();
+    if (!object) {
+        res = scene.getBackGroundImage(x,y);
+    }
     else {
         res = getImpactColor(ray, object, impact, scene);
+        if (object->Texture.data != NULL) {
+            Point p = object->getTextureCoordinates(impact);
+            cv::Vec3b tmp = object->Texture.at<cv::Vec3b>(y%object->Texture.rows, x%object->Texture.cols);
+            float max = 255;
+            float r = tmp[2] / max;
+            float g = tmp[1] / max;
+            float b = tmp[0] / max;
+            res = res * Color(r, g, b);
+        }
         Light l = scene.getLight(0);
         Ray lv = l.getRayToLight(impact);
         lv.origin = lv.origin + Point(lv.vector[0], lv.vector[1], lv.vector[2]);

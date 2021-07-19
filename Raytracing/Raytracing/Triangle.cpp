@@ -29,9 +29,9 @@ Ray Triangle::getNormal(const Point& impact, const Point& observator) {
 
     Point lp = globalToLocal(impact);
     Point lo = globalToLocal(observator);
-    float y = 1;
-    if (lo[1] < 0)y = -1;
-    Ray res = localToGlobal(Ray(lp, Vector(0, y, 0)));
+    float z = 1;
+    if (lo[z] < 0)z = -1;
+    Ray res = localToGlobal(Ray(lp, Vector(0, 0, z)));
     res.normalized();
 
  
@@ -41,58 +41,47 @@ Ray Triangle::getNormal(const Point& impact, const Point& observator) {
 bool Triangle::intersect(const Ray& ray, Point& impact, float& t0, float& t1) {
 
         Ray r = globalToLocal(ray);
-        // compute plane's normal
-        Vector v0v1 = v1 - v0;
-        Vector v0v2 = v2 - v0;
-        // no need to normalize
-        Vector N = v0v1.cross(v0v2); // N 
-        float area2 = N.length2();
+        const float EPSILON = 0.0000001;
+        Vector vertex0 = this->v0;
+        Vector vertex1 = this->v1;
+        Vector vertex2 = this->v2;
+        Vector edge1, edge2, h, s, q;
+        float a, f, u, v;
+        edge1 = vertex1 - vertex0;
+        edge2 = vertex2 - vertex0;
+        h = r.vector.cross(edge2);
+        a = edge1.dot(h);
+        if (a > -EPSILON && a < EPSILON)
+            return false;    // Le rayon est parallèle au triangle.
 
-        // Step 1: finding P
+        f = 1.0 / a;
+        Vector tmp(r.origin[0], r.origin[1], r.origin[2]);
+        s = tmp - vertex0;
+        u = f * (s.dot(h));
+        if (u < 0.0 || u > 1.0)
+            return false;
+        q = s.cross(edge1);
+        v = f * r.vector.dot(q);
+        if (v < 0.0 || u + v > 1.0)
+            return false;
 
-        // check if ray and plane are parallel ?
-        float NdotRayDirection = N.dot(r.vector);
-        if (fabs(NdotRayDirection) < 0.00000000000000000000001) // almost 0 
-            return false; // they are parallel so they don't intersect ! 
+        // On calcule t pour savoir ou le point d'intersection se situe sur la ligne.
+        float t = f * edge2.dot(q);
+        if (t > EPSILON) // Intersection avec le rayon
+        {
+            Vector p = r.origin + r.vector * t;
+            p = localToGlobal(p);
+            impact[0] = p[0];
+            impact[1] = p[1];
+            impact[2] = p[2];
 
-        // compute d parameter using equation 2
-        float d = N.dot(v0);
+            t0 = t1 = t;
 
-        // compute t (equation 3)
-        float t = (N.dot(r.origin) + d) / NdotRayDirection;
-        // check if the triangle is in behind the ray
-        if (t < 0) return false; // the triangle is behind 
-
-        // compute the intersection point using equation 1
-        Vector P = r.origin + t * r.vector;
-
-        // Step 2: inside-outside test
-        Vector C; // vector perpendicular to triangle's plane 
-
-        // edge 0
-        Vector edge0 = v1 - v0;
-        Vector vp0 = P - v0;
-        C = edge0.cross(vp0);
-        if (N.dot(C) < 0) return false; // P is on the right side 
-
-        // edge 1
-        Vector edge1 = v2 - v1;
-        Vector vp1 = P - v1;
-        C = edge1.cross(vp1);
-        if (N.dot(C) < 0)  return false; // P is on the right side 
-
-        // edge 2
-        Vector edge2 = v0 - v2;
-        Vector vp2 = P - v2;
-        C = edge2.cross(vp2);
-        if (N.dot(C) < 0) return false; // P is on the right side; 
-
-        Vector p = localToGlobal(P);
-        impact[0] = p[0];
-        impact[1] = p[1];
-        impact[2] = p[2];
-
-        t0 = t1 = t;
+            return true;
+        }
+        else // On a bien une intersection de droite, mais pas de rayon.
+            return false;
+        
         return true; // this ray hits the triangle 
 
 }

@@ -17,6 +17,15 @@ Cube::Cube(Material material)
 
 }
 
+Point Cube::getTextureCoordinates(const Point& p)
+{
+	Point lp = globalToLocal(p);
+	if (lp[0] > 0.999 || lp[0] < -0.999)return Point(lp[2] / 2 + 0.5, lp[1] / 2 + 0.5, 0);
+	if (lp[1] > 0.999 || lp[1] < -0.999)return Point(lp[0] / 2 + 0.5, lp[2] / 2 + 0.5, 0);
+	if (lp[2] > 0.999 || lp[2] < -0.999)return Point(lp[0] / 2 + 0.5, lp[1] / 2 + 0.5, 0);
+	return Point(0, 0, 0);
+}
+
 Ray Cube::getNormal(const Point& impact, const Point& observator) {
 
 	Point lp = globalToLocal(impact);

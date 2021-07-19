@@ -5,6 +5,7 @@ Scene::Scene()
 {
 	background = Color(0, 0, 0);
 	ambiant = Color(1, 1, 1);
+	image = cv::imread("2K_ice-fire-ac.jpg");
 }
 
 void Scene::addObject(Object* object) {
@@ -21,6 +22,19 @@ void Scene::setAmbiant(const Color& c) {
 
 Color Scene::getBackground() {
 	return this->background;
+}
+
+Color Scene::getBackGroundImage(int x, int y)
+{
+
+	cv::Vec3b tmp = image.at<cv::Vec3b>(y % image.rows, x % image.cols);
+	float max = 255;
+	float r = tmp[2] / max;
+	float g = tmp[1] / max;
+	float b = tmp[0] / max;
+	Color c(r, g, b);
+
+	return c;
 }
 
 Color Scene::getAmbiant() {
@@ -46,22 +60,24 @@ Object* Scene::closer_intersected(Ray& ray, Point& impact) {
 
 
 
-	for (int i = 0; i < objects.size(); i ++) {
-		
-		if (objects[i]->intersect(ray, impact, t0, t1)) {
-			/*if (t0 < 0) t0 = t1;
-			if (t0 < tnear) {*/
-				tnear = t0;
-				//Vector phit = ray.origin + ray.vector * tnear;
-				//impact[0] = phit[0];
-				//impact[1] = phit[1];
-				//impact[2] = phit[2];
-				obj = objects[i];
-				return obj;
+	for (int i = 0; i < objects.size(); i++) {
 
-			}
-			
+		if (objects[i]->intersect(ray, impact, t0, t1)) {
+			//if (t0 < 0) t0 = t1;
+			//if (t0 < tnear) {
+			tnear = t0;
+			//Vector phit = ray.origin + ray.vector * tnear;
+			//impact[0] = phit[0];
+			//impact[1] = phit[1];
+			//impact[2] = phit[2];
+			obj = objects[i];
+			return obj;
+
+			//}
+
 		//}
+		}
+		
 	}
 	return obj;
 }
