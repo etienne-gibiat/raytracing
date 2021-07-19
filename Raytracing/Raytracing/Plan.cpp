@@ -41,3 +41,14 @@ bool Plan::intersect(const Ray& ray, Point& impact, float& t0, float& t1) {
 
 	return true;
 }
+
+Point Plan::getTextureCoordinates(const Point& p)
+{
+	Point lp = globalToLocal(p);
+	float x = lp[0] - (int)lp[0];
+	float y = lp[1] - (int)lp[1];
+	if (x < 0)x += 1;
+	if (y < 0)y += 1;
+
+	return Point(x, y, 0);
+}

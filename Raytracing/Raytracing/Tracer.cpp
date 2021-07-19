@@ -81,7 +81,7 @@ void Tracer::render(Scene scene) {
 
 Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene) {
 
-   /*Material m = obj->getMaterial(impact);
+   Material m = obj->getMaterial(impact);
     Color amb = m.ambiant.mul(scene.getAmbiant());
 
     Color diff = Color();
@@ -104,8 +104,8 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
         }
     }
     Color Phong = diff + amb + spec;
-    return Phong;*/
-    Material m = obj->getMaterial(impact);
+    return Phong;
+    /*Material m = obj->getMaterial(impact);
     Ray normal = obj->getNormal(impact, ray.origin);
     Color c = m.ambiant.mul(scene.getAmbiant());
     for (int l = 0; l < scene.nbLights(); l++) {
@@ -120,10 +120,9 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
         float beta = -rm.dot(ray.vector);
         if (beta > 0)
             c += (light.is).mul(m.specular) * pow(beta, m.shininess);
-        Ray toLight(impact, lv);
     }
 
-    return c;
+    return c;*/
 
 }
 
@@ -141,7 +140,17 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
         res = getImpactColor(ray, object, impact, scene);
         if (object->Texture.data != NULL) {
             Point p = object->getTextureCoordinates(impact);
-            cv::Vec3b tmp = object->Texture.at<cv::Vec3b>(y%object->Texture.rows, x%object->Texture.cols);
+            int xt = p[0] * object->Texture.cols;
+            int yt = p[1] * object->Texture.rows;
+            if (xt < 0) {
+                xt = -xt;
+            }
+            if (yt < 0) {
+                yt = -yt;
+            }
+            xt = xt % object->Texture.cols;
+            yt = yt % object->Texture.rows;
+            cv::Vec3b tmp = object->Texture.at<cv::Vec3b>(yt, xt);
             float max = 255;
             float r = tmp[2] / max;
             float g = tmp[1] / max;

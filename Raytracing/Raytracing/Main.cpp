@@ -259,12 +259,12 @@ int main(int argc, char** argv)
 
     sphere.translate(0, 0, 30);
     sphere.scale(0.4);
+    sphere.rotateX(-1);
     
     sphere.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere.material.specular = Color(0.75, 0.75, 0.75);
     sphere.material.shininess = 3;
-    sphere.Texture = cv::imread("damier2.jpg");
-    sphere.MatDuo = true;
+    sphere.Texture = cv::imread("damier.jpg");
 
     sphere2.translate(-3.5, -1, 27);
     sphere2.scale(0.8);
@@ -294,10 +294,10 @@ int main(int argc, char** argv)
 
     Cube cube(Color(0,1,0));
     cube.translate(-10, 0, 10);
-    cube.Texture = cv::imread("damier2.jpg");
-    cube.rotateX(30);
-    cube.rotateY(30);
-    cube.rotateZ(40);
+    cube.Texture = cv::imread("damier.jpg");
+    cube.rotateX(0.3);
+    //cube.rotateY(30);
+    //cube.rotateZ(40);
 
     cube.material.diffuse = Color(0.25, 0.25, 0.25);
     cube.material.specular = Color(0.75, 0.75, 0.75);
@@ -316,12 +316,12 @@ int main(int argc, char** argv)
     light.is = Color(0.5,0.5,0.5);
 
     Plan plan(Color(0.20,0.20,0.20));
+    //Plan plan(Color(1,1,1));
     plan.translate(0, -3, 0);
-    //plan.rotateX(90);
     plan.normale = Vector(0, 1, 0);
     plan.material.diffuse = Color(0, 0, 0);
     plan.material.specular = Color(0, 0, 0);
-
+    plan.Texture = cv::imread("damier.jpg");
     scene.addObject(&triangle);
     scene.addObject(&sphere);
     scene.addObject(&sphere2);
