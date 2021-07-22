@@ -11,9 +11,9 @@ public:
 
 	Tracer();
 
-	void render(Scene scene);
+	void render(Scene scene,int,int,std::string, bool);
 	Color getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene);
-	Color trace(Ray ray, Scene scene, int depth);
+	Color trace(Ray ray, Scene scene, int depth, bool ombre);
 
 private:
 

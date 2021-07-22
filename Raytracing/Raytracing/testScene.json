@@ -1,0 +1,107 @@
+{
+	"Spheres": [
+		{
+		
+			"Translate" : {"x" :0, "y": 0, "z": 30},
+			"Color" : {"r" :1.00, "g": 0.32, "b": 0.36},
+			"Scale" : 0.4,
+			"RotateX" : -1.00,
+			"RotateY" : 0.00,
+			"RotateZ" : 0.00,
+			"TextureName" : "damier.jpg"
+		
+		
+		},
+	
+		{
+	
+			"Translate" : {"x" :-3.5, "y": -1, "z": 27},
+			"Color" : {"r" :0.90, "g": 0.76, "b": 0.46},
+			"Scale" : 0.8,
+			"RotateX" : 0.00,
+			"RotateY" : 0.00,
+			"RotateZ" : 0.00,
+			"TextureName" : ""
+	
+	
+		},
+		
+		{
+	
+			"Translate" : {"x" :-3.5, "y": 0, "z": 33},
+			"Color" : {"r" :0.65, "g": 0.77, "b": 0.97},
+			"Scale" : 1,
+			"RotateX" : 0.00,
+			"RotateY" : 0.00,
+			"RotateZ" : 0.00,
+			"TextureName" : ""
+	
+	
+		},
+		
+		{
+	
+			"Translate" : {"x" : 4, "y": 0, "z": 27},
+			"Color" : {"r" :0.90, "g": 0.90, "b": 0.90},
+			"Scale" : 0.6,
+			"RotateX" : 0.00,
+			"RotateY" : 0.00,
+			"RotateZ" : 0.00,
+			"TextureName" : ""
+	
+	
+		}
+	],
+	"Cubes" : [
+		{
+		
+			"Translate" : {"x" :-10, "y": 0, "z": 10},
+			"Color" : {"r" :0.00, "g": 1.00, "b": 0.00},
+			"Scale" : 1,
+			"RotateX" : 0.30,
+			"RotateY" : 0.00,
+			"RotateZ" : 0.00,
+			"TextureName" : "damier.jpg"
+		
+		
+		}
+	],
+	
+	"Triangles": [
+	
+		{
+		
+			"Translate" : {"x" : 2, "y": -2, "z": 10},
+			"Color" : {"r" :0.65, "g": 0.77, "b": 0.97},
+			"Scale" : 1,
+			"RotateX" : 1.57,
+			"RotateY" : 0.00,
+			"RotateZ" : 0.00,
+			"TextureName" : ""
+		
+		
+		}
+	],
+	
+	"Cylindres": [
+		{
+			"Translate" : {"x" : -15, "y": 5, "z": 30},
+			"Color" : {"r" :1.00, "g": 0.00, "b": 0.00},
+			"Scale" : 1,
+			"RotateX" : 1.67,
+			"RotateY" : 0.00,
+			"RotateZ" : 0.00,
+			"TextureName" : ""
+		}
+	
+	],
+	
+	"Lights": [
+		{
+			"Translate" : {"x" : 0, "y": -20, "z": -30},
+			"Id" : {"r" :0.80, "g": 0.80, "b": 0.80},
+			"Is" : {"r" :0.50, "g": 0.50, "b": 0.50}
+		}
+	
+	]
+}

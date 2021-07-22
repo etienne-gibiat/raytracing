@@ -8,7 +8,7 @@ class Object : public Entity
 public:
 
 	Material material;
-	cv::Mat Texture;
+	cv::Mat* Texture;
 	Point position;
 	Object();
 
