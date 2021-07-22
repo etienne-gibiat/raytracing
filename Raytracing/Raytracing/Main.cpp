@@ -10,6 +10,8 @@
 #include "Sphere.hpp"
 #include "Cube.hpp"
 #include "CylindreInfini.hpp"
+#include "Cone.hpp"
+#include "Carre.hpp"
 #include "Triangle.hpp"
 #include "Tracer.hpp"
 #include "Plan.hpp"
@@ -266,7 +268,7 @@ int main(int argc, char** argv)
     sphere.material.shininess = 3;
     sphere.Texture = cv::imread("damier.jpg");
 
-    sphere2.translate(-3.5, -1, 27);
+    sphere2.translate(0, 0, 10);
     sphere2.scale(0.8);
     sphere2.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere2.material.specular = Color(0.75, 0.75, 0.75);
@@ -288,7 +290,7 @@ int main(int argc, char** argv)
     triangle.material.diffuse = Color(0.25, 0.25, 0.25);
     triangle.material.specular = Color(0.75, 0.75, 0.75);
     triangle.material.shininess = 3;
-    triangle.translate(2, 0, 10);
+    triangle.translate(2, 0, 60);
     
 
 
@@ -297,14 +299,33 @@ int main(int argc, char** argv)
     cube.Texture = cv::imread("damier.jpg");
     cube.rotateX(0.3);
     //cube.rotateY(30);
-    //cube.rotateZ(40);
+    //cube.rotateZ(40
+
 
     cube.material.diffuse = Color(0.25, 0.25, 0.25);
     cube.material.specular = Color(0.75, 0.75, 0.75);
     cube.material.shininess = 3;
 
+
+    Carre carre(Color(0, 1, 0));
+    carre.translate(-5, 0, 10);
+    carre.material.diffuse = Color(0.25, 0.25, 0.25);
+    carre.material.specular = Color(0.75, 0.75, 0.75);
+    carre.material.shininess = 5;
+    carre.rotateX(-1);
+    carre.rotateY(1);
+
+
+    Cone cone(Color(0, 1, 0));
+    cone.translate(-5, 0, 100);
+    cone.rotateZ(1.5708);
+    //cone.rotateY(-1.5708);
+    cube.material.diffuse = Color(0.25, 0.25, 0.25);
+    cube.material.specular = Color(0.75, 0.75, 0.75);
+    cube.material.shininess = 3;
+
     CylindreInfini cylindre(Color(1, 0, 0));
-    cylindre.translate(-15, 5, 30);
+    cylindre.translate(-15, 5, 3000);
     cylindre.rotateX(1.57);
     cylindre.material.diffuse = Color(0.25, 0.25, 0.25);
     cylindre.material.specular = Color(0.75, 0.75, 0.75);
@@ -318,17 +339,22 @@ int main(int argc, char** argv)
     Plan plan(Color(0.20,0.20,0.20));
     //Plan plan(Color(1,1,1));
     plan.translate(0, -3, 0);
+    plan.rotateX(1.5708);
     plan.normale = Vector(0, 1, 0);
     plan.material.diffuse = Color(0, 0, 0);
     plan.material.specular = Color(0, 0, 0);
-    plan.Texture = cv::imread("damier.jpg");
-    scene.addObject(&triangle);
+    plan.Texture = cv::imread("Grass_01.jpg");
+    scene.addObject(&carre);
+    //scene.addObject(&triangle);
     scene.addObject(&sphere);
     scene.addObject(&sphere2);
     scene.addObject(&sphere3);
     scene.addObject(&sphere4);
+    scene.addObject(&cone);
     scene.addObject(&cylindre);
     scene.addObject(&cube);
+    
+    
     scene.addObject(&plan);
    
     //scene.addObject(&Globe);

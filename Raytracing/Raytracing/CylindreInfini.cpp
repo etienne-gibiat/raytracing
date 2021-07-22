@@ -58,5 +58,7 @@ bool CylindreInfini::intersect(const Ray& ray, Point& impact, float& t0, float& 
 	Vector p = r.origin + t * r.vector;
 	Point p2(p[0], p[1], p[2]);
 	impact = localToGlobal(p2);
+	t0 = t;
+	t1 = t;
 	return true;
 	}

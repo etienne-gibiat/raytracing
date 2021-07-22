@@ -83,7 +83,8 @@ bool Cube::intersect(const Ray& ray, Point& impact, float& t0, float& t1) {
 		Point p(tmp[0], tmp[1], tmp[2]);
 		p = localToGlobal(p);
 		impact = p;
-		t0 = t1 = mint;
+		t0 = mint;
+		t1 = mint;
 		return true;
 	}
 

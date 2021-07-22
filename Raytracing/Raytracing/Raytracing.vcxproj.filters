@@ -20,6 +20,8 @@
     <ClCompile Include="Tracer.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="Cone.cpp" />
+    <ClCompile Include="Carre.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bitmap.h" />
@@ -40,5 +42,7 @@
     <ClInclude Include="Tracer.hpp" />
     <ClInclude Include="Vector.hpp" />
     <ClInclude Include="Triangle.hpp" />
+    <ClInclude Include="Cone.hpp" />
+    <ClInclude Include="Carre.hpp" />
   </ItemGroup>
 </Project>

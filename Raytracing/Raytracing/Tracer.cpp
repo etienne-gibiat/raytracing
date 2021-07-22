@@ -31,7 +31,7 @@ void Tracer::render(Scene scene) {
     const float gamma = 1.f / 2.2f;
 
     unsigned width = 850, height = 480;
-    //unsigned width = 300, height = 200;
+    //unsigned width = 1920, height = 1080;
     cv::Mat mat = cv::Mat::ones(height, width, CV_8UC3);
     Color pixelColor;
     Color* image = new Color[width * height], * pixel = image;
@@ -63,8 +63,9 @@ void Tracer::render(Scene scene) {
         }
     }
     cv::imshow("Raytracing", mat);
-    cv::waitKey(0);
     cv::imwrite("Raytracing.jpg", mat);
+    cv::waitKey(0);
+    
     
     // Save result to a PPM image (keep these flags if you compile under Windows)
     /*std::ofstream ofs("./rendu.ppm", std::ios::out | std::ios::binary);
@@ -90,6 +91,8 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
     float angle, angle2;
     int nbLights = scene.nbLights();
     Ray normale = obj->getNormal(impact, ray.origin);
+    /*Color res(normale.vector[0], normale.vector[1], normale.vector[2]);
+    return res;*/
 
     for (int i = 0; i < nbLights; i++) {
         Ray l = scene.getLight(i).getRayToLight(impact);

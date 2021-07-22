@@ -27,7 +27,7 @@ Triangle::Triangle(Material material, Vector v1, Vector v2)
 
 Ray Triangle::getNormal(const Point& impact, const Point& observator) {
 
-    Point lp = globalToLocal(impact);
+    /*Point lp = globalToLocal(impact);
     Point lo = globalToLocal(observator);
     float z = 1;
     if (lo[z] < 0)z = -1;
@@ -35,7 +35,25 @@ Ray Triangle::getNormal(const Point& impact, const Point& observator) {
     res.normalized();
 
  
-    return res;
+    return res;*/
+    Point p = globalToLocal(impact);
+
+    Vector v(0, 0, 0);
+
+    if (globalToLocal(observator)[2] > 0) {
+
+        v[2] = 1;
+
+    }
+    else {
+
+        v[2] = -1;
+
+    }
+
+    Ray r(p, v);
+
+    return localToGlobal(r);
 }
 
 bool Triangle::intersect(const Ray& ray, Point& impact, float& t0, float& t1) {
@@ -75,13 +93,14 @@ bool Triangle::intersect(const Ray& ray, Point& impact, float& t0, float& t1) {
             impact[1] = p[1];
             impact[2] = p[2];
 
-            t0 = t1 = t;
+            t0 = t;
+            t1 = t;
 
             return true;
         }
         else // On a bien une intersection de droite, mais pas de rayon.
             return false;
         
-        return true; // this ray hits the triangle 
+        //return true; // this ray hits the triangle 
 
 }

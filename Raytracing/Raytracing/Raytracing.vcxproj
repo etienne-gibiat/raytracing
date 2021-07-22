@@ -149,7 +149,9 @@
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Carre.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Cone.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="CylindreInfini.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -170,7 +172,9 @@
   <ItemGroup>
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Camera.hpp" />
+    <ClInclude Include="Carre.hpp" />
     <ClInclude Include="Color.hpp" />
+    <ClInclude Include="Cone.hpp" />
     <ClInclude Include="Cube.hpp" />
     <ClInclude Include="CylindreInfini.hpp" />
     <ClInclude Include="Entity.hpp" />

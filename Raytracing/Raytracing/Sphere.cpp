@@ -78,6 +78,7 @@ bool Sphere::intersect(const Ray & ray, Point & impact, float& t0, float& t1){
 	Vector v = r.origin + t * r.vector;
 	Point p(v[0], v[1], v[2]);
 	impact = localToGlobal(p);
-	t0 = t1 = t;
+	t0 = t;
+	t1 = t;
 	return true;
 }
