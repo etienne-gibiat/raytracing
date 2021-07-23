@@ -31,7 +31,7 @@ void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre
     const float gamma = 1.f / 2.2f;
 
     //unsigned width = 850, height = 480;
-    unsigned width = w, height = h;
+    unsigned width = w*2, height = h*2;
     cv::Mat mat = cv::Mat::ones(height, width, CV_8UC3);
     Color pixelColor;
     Color* image = new Color[width * height], * pixel = image;
@@ -69,9 +69,29 @@ void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre
             
         }
     }
-    cv::imshow("Raytracing", mat);
+
+    cv::Mat res = cv::Mat::ones(h, w, CV_8UC3);
+    for (y = 0; y < h; ++y) {
+
+        for (x = 0; x < w; ++x) {
+            cv::Vec3b coin1 = mat.at<cv::Vec3b>(y*2, x*2);
+            cv::Vec3b coin2 = mat.at<cv::Vec3b>(y*2, x*2+1);
+            cv::Vec3b coin3 = mat.at<cv::Vec3b>(y*2+1, x*2);
+            cv::Vec3b coin4 = mat.at<cv::Vec3b>(y*2+1, x*2+1);
+            
+            float sumR = (float)coin1.val[2] + (float)coin2.val[2] + (float)coin3.val[2] + (float)coin4.val[2];
+            float sumG = (float)coin1.val[1] + (float)coin2.val[1] + (float)coin3.val[1] + (float)coin4.val[1];
+            float sumB = (float)coin1.val[0] + (float)coin2.val[0] + (float)coin3.val[0] + (float)coin4.val[0];
+            sumR /= 4;
+            sumG /= 4;
+            sumB /= 4;
+            cv::Vec3b average = cv::Vec3b(sumB, sumG, sumR);
+            res.at<cv::Vec3b>(y, x) = average;
+        }
+    }
+    cv::imshow("Raytracing", res);
     cv::waitKey(0);
-    cv::imwrite(imageName, mat);
+    cv::imwrite(imageName, res);
     delete[] image;
 
 }
@@ -113,19 +133,19 @@ Color Tracer::trace(Ray ray, Scene scene, int depth, bool ombre)
     }
     else {
         res = getImpactColor(ray, object, impact, scene);
-        if (object->Texture != NULL) {
+        if (object->Texture.data != NULL) {
             Point p = object->getTextureCoordinates(impact);
-            int xt = p[0] * object->Texture->cols;
-            int yt = p[1] * object->Texture->rows;
+            int xt = p[0] * object->Texture.cols;
+            int yt = p[1] * object->Texture.rows;
             if (xt < 0) {
                 xt = -xt;
             }
             if (yt < 0) {
                 yt = -yt;
             }
-            xt = xt % object->Texture->cols;
-            yt = yt % object->Texture->rows;
-            cv::Vec3b tmp = object->Texture->at<cv::Vec3b>(yt, xt);
+            xt = xt % object->Texture.cols;
+            yt = yt % object->Texture.rows;
+            cv::Vec3b tmp = object->Texture.at<cv::Vec3b>(yt, xt);
             float max = 255;
             float r = tmp[2] / max;
             float g = tmp[1] / max;

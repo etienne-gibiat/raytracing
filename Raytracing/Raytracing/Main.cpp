@@ -114,7 +114,6 @@ int main(int argc, char** argv)
     JSONValue TriangleJson;
     JSONValue CylindreJson;
     JSONValue LightJson;
-    cv::Mat texture;
     myScene = JSON::load(sceneName);
 
     for (auto it = myScene.m_object.begin(); it != myScene.m_object.end(); ++it)
@@ -143,8 +142,8 @@ int main(int argc, char** argv)
                 jsonSphere->material.shininess = 3;
                 std::string textureName = SphereJson["TextureName"].asString();
                 if (textureName != "") {
-                    texture = cv::imread(textureName);
-                    jsonSphere->Texture = &texture;
+                    cv::Mat texture = cv::imread(textureName);
+                    jsonSphere->Texture = texture;
                 }
                 
                 scene.addObject(jsonSphere);
@@ -175,8 +174,8 @@ int main(int argc, char** argv)
                 jsonCube->material.shininess = 3;
                 std::string textureName = CubeJson["TextureName"].asString();
                 if (textureName != "") {
-                    texture = cv::imread(textureName);
-                    jsonCube->Texture = &texture;
+                    cv::Mat texture = cv::imread(textureName);
+                    jsonCube->Texture = texture;
                 }
 
                 scene.addObject(jsonCube);
@@ -208,8 +207,8 @@ int main(int argc, char** argv)
                 jsonTriangle->material.shininess = 3;
                 std::string textureName = TriangleJson["TextureName"].asString();
                 if (textureName != "") {
-                    texture = cv::imread(textureName);
-                    jsonTriangle->Texture = &texture;
+                    cv::Mat texture = cv::imread(textureName);
+                    jsonTriangle->Texture = texture;
                 }
 
                 scene.addObject(jsonTriangle);
@@ -240,8 +239,8 @@ int main(int argc, char** argv)
                 jsonCylindre->material.shininess = 3;
                 std::string textureName = CylindreJson["TextureName"].asString();
                 if (textureName != "") {
-                    texture = cv::imread(textureName);
-                    jsonCylindre->Texture = &texture;
+                    cv::Mat texture = cv::imread(textureName);
+                    jsonCylindre->Texture = texture;
                 }
 
                 scene.addObject(jsonCylindre);
@@ -278,10 +277,11 @@ int main(int argc, char** argv)
     
     Plan plan(Color(0.20,0.20,0.20));
     plan.translate(0, -3, 0);
+    plan.rotateX(1.57);
     plan.normale = Vector(0, 1, 0);
     plan.material.diffuse = Color(0, 0, 0);
     plan.material.specular = Color(0, 0, 0);
-    //plan.Texture = cv::imread("damier.jpg");
+    //plan.Texture = &cv::imread("damier.jpg");
     scene.addObject(&plan);
 
     
