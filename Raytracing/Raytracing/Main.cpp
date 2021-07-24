@@ -279,7 +279,7 @@ int main(int argc, char** argv)
             }
         }
 
-        if (it->first == "Cônes") {
+        if (it->first == "Cones") {
 
             JSONValue obj = myScene.m_object[it->first];
             for (int i = 0; i < obj.size(); ++i) {
@@ -337,7 +337,14 @@ int main(int argc, char** argv)
             }
         }
     }
-    
+
+    /*Cone cone(Color(0, 0.5, 0));
+    cone.translate(-5, 5, 30);
+    cone.rotateZ(1.5708);
+    cone.rotateZ(1.5708);
+    cone.scale(1);
+    scene.addObject(&cone);*/
+
     Plan plan(Color(0.20,0.20,0.20));
     plan.translate(0, -3, 0);
     plan.rotateX(1.57);

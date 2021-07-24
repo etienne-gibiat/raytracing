@@ -166,7 +166,7 @@ Color Tracer::trace(Ray ray, Scene scene, int depth, bool ombre)
                 float t0, t1;
                 if (obj[j]->intersect(lv, impact2, t0, t1)) {
                     if (obj[j] == object) {
-                        //transmission = Color(0.7, 0.7, 0.7); 
+                        transmission = Color(0.7, 0.7, 0.7); 
                     }
                     else {
                         transmission = Color(0.3, 0.3, 0.3);
