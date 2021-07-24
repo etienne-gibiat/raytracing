@@ -16,12 +16,12 @@
 		{
 	
 			"Translate" : {"x" :-3.5, "y": -1, "z": 27},
-			"Color" : {"r" :0.90, "g": 0.76, "b": 0.46},
+			"Color" : {"r" :1.00, "g": 1.00, "b": 1.00},
 			"Scale" : 0.8,
 			"RotateX" : 0.00,
 			"RotateY" : 0.00,
 			"RotateZ" : 0.00,
-			"TextureName" : ""
+			"TextureName" : "Sun.jpg"
 	
 	
 		},
@@ -89,6 +89,32 @@
 			"Color" : {"r" :1.00, "g": 0.00, "b": 0.00},
 			"Scale" : 1,
 			"RotateX" : 1.67,
+			"RotateY" : 0.00,
+			"RotateZ" : 0.00,
+			"TextureName" : ""
+		}
+	
+	],
+	
+	"Carres": [
+		{
+			"Translate" : {"x" : -5, "y": 0, "z": 10},
+			"Color" : {"r" :0.00, "g": 1.00, "b": 0.00},
+			"Scale" : 1,
+			"RotateX" : -1,
+			"RotateY" : 1,
+			"RotateZ" : 0.00,
+			"TextureName" : ""
+		}
+	
+	],
+	
+	"Cônes": [
+		{
+			"Translate" : {"x" : -5, "y": 5, "z": 30},
+			"Color" : {"r" :0.00, "g": 0.50, "b": 0.00},
+			"Scale" : 1,
+			"RotateX" : 3.14,
 			"RotateY" : 0.00,
 			"RotateZ" : 0.00,
 			"TextureName" : ""

@@ -105,16 +105,13 @@ int main(int argc, char** argv)
     Color color3(0.65, 0.77, 0.97);
     Color color4(0.90,0.90,0.90);
     Scene scene = Scene();
-    //Sphere sphere(color, Point(1200, 1200, 7800), 1);
-    Sphere sphere(color); //Une sphere
-    Sphere sphere2(color2); //Une sphere
-    Sphere sphere3(color3); //Une sphere
-    Sphere sphere4(color4); //Une sphere
     JSONValue myScene; 
     JSONValue SphereJson;
     JSONValue CubeJson;
     JSONValue TriangleJson;
     JSONValue CylindreJson;
+    JSONValue ConeJson;
+    JSONValue CarreJson;
     JSONValue LightJson;
     myScene = JSON::load(sceneName);
 
@@ -246,6 +243,70 @@ int main(int argc, char** argv)
                 }
 
                 scene.addObject(jsonCylindre);
+
+            }
+        }
+
+        if (it->first == "Carres") {
+
+            JSONValue obj = myScene.m_object[it->first];
+            for (int i = 0; i < obj.size(); ++i) {
+
+                CarreJson = obj[i];
+
+
+                float r = CarreJson["Color"]["r"].asDouble();
+                float g = CarreJson["Color"]["g"].asDouble();
+                float b = CarreJson["Color"]["b"].asDouble();
+                Color c(r, g, b);
+                Carre* jsonCarre = new Carre(c);
+                jsonCarre->translate(CarreJson["Translate"]["x"].asDouble(), CarreJson["Translate"]["y"].asDouble(), CarreJson["Translate"]["z"].asDouble());
+                jsonCarre->scale(CarreJson["Scale"].asDouble());
+                jsonCarre->rotateX(CarreJson["RotateX"].asDouble());
+                jsonCarre->rotateY(CarreJson["RotateY"].asDouble());
+                jsonCarre->rotateZ(CarreJson["RotateZ"].asDouble());
+                jsonCarre->material.diffuse = Color(0.25, 0.25, 0.25);
+                jsonCarre->material.specular = Color(0.75, 0.75, 0.75);
+                jsonCarre->material.shininess = 3;
+                std::string textureName = CarreJson["TextureName"].asString();
+                if (textureName != "") {
+                    cv::Mat texture = cv::imread(textureName);
+                    jsonCarre->Texture = texture;
+                }
+
+                scene.addObject(jsonCarre);
+
+            }
+        }
+
+        if (it->first == "Cônes") {
+
+            JSONValue obj = myScene.m_object[it->first];
+            for (int i = 0; i < obj.size(); ++i) {
+
+                ConeJson = obj[i];
+
+
+                float r = ConeJson["Color"]["r"].asDouble();
+                float g = ConeJson["Color"]["g"].asDouble();
+                float b = ConeJson["Color"]["b"].asDouble();
+                Color c(r, g, b);
+                Cone* jsonCone = new Cone(c);
+                jsonCone->translate(ConeJson["Translate"]["x"].asDouble(), ConeJson["Translate"]["y"].asDouble(), ConeJson["Translate"]["z"].asDouble());
+                jsonCone->scale(ConeJson["Scale"].asDouble());
+                jsonCone->rotateX(ConeJson["RotateX"].asDouble());
+                jsonCone->rotateY(ConeJson["RotateY"].asDouble());
+                jsonCone->rotateZ(ConeJson["RotateZ"].asDouble());
+                jsonCone->material.diffuse = Color(0.25, 0.25, 0.25);
+                jsonCone->material.specular = Color(0.75, 0.75, 0.75);
+                jsonCone->material.shininess = 3;
+                std::string textureName = ConeJson["TextureName"].asString();
+                if (textureName != "") {
+                    cv::Mat texture = cv::imread(textureName);
+                    jsonCone->Texture = texture;
+                }
+
+                scene.addObject(jsonCone);
 
             }
         }

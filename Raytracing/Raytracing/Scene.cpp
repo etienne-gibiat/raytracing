@@ -5,7 +5,7 @@ Scene::Scene()
 {
 	background = Color(0, 0, 0);
 	ambiant = Color(1, 1, 1);
-	image = cv::imread("2K_ice-fire-ac.jpg");
+	image = cv::imread("jupiter.jpg");
 }
 
 void Scene::addObject(Object* object) {
