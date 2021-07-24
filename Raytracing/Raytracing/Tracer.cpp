@@ -24,32 +24,39 @@ Tracer::Tracer()
 {
 }
 unsigned x, y;
-void Tracer::render(Scene scene) {
+void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre) {
 
     
 
     const float gamma = 1.f / 2.2f;
 
-    unsigned width = 850, height = 480;
-    //unsigned width = 2546, height = 1440;
+    //unsigned width = 850, height = 480;
+    unsigned width = w*2, height = h*2;
     cv::Mat mat = cv::Mat::ones(height, width, CV_8UC3);
     Color pixelColor;
     Color* image = new Color[width * height], * pixel = image;
     float invWidth = 1 / float(width), invHeight = 1 / float(height);
     float fov = 60, aspectratio = width / float(height);
     float angle = tan(M_PI * 0.5 * fov / 180.);
-    
+
     // Trace rays
     for (y = 0; y < height; ++y) {
         
         for (x = 0; x < width; ++x, ++pixel) {
-            float xx = (2 * ((x + 0.5) * invWidth) - 1) * angle * aspectratio;
-            float yy = (1 - 2 * ((y + 0.5) * invHeight)) * angle;
-            /*Vector raydir(xx, yy, -1);
-            raydir.normalized();
-            *pixel = trace(Vector(), raydir, spheres, 0);*/
-            //Ray ray(0, 0, 0, xx, yy, -1);
-            //ray.normalized();
+
+
+            if (y / (height * 0.25) == 1 && x == 0) {
+                std::cout << "25% termine" << std::endl;
+            }
+            if (y / (height * 0.5) == 1 && x == 0) {
+                std::cout << "50% termine" << std::endl;
+            }
+            if (y / (height * 0.75) == 1 && x == 0) {
+                std::cout << "75% termine" << std::endl;
+            }
+            if ((y + 1) / (height) == 1 && x == 0) {
+                std::cout << "100% termine" << std::endl;
+            }
             Camera camera(5, aspectratio);
             camera.translate(0, 0, -10);
 
@@ -57,25 +64,34 @@ void Tracer::render(Scene scene) {
             float yprim = (float)y / (float)height;
             Ray ray = camera.getRay(xprim, yprim);
             
-            *pixel = trace(ray, scene, 5);
+            *pixel = trace(ray, scene, 5, ombre);
             mat.at<cv::Vec3b>(y, x) = cv::Vec3b(pixel->tabColor[2]*255, pixel->tabColor[1]*255, pixel->tabColor[0]*255);
             
         }
     }
-    cv::imshow("Raytracing", mat);
-    cv::imwrite("Raytracing.jpg", mat);
-    cv::waitKey(0);
-    
-    
-    // Save result to a PPM image (keep these flags if you compile under Windows)
-    /*std::ofstream ofs("./rendu.ppm", std::ios::out | std::ios::binary);
-    ofs << "P6\n" << width << " " << height << "\n255\n";
-    for (unsigned i = 0; i < width * height; ++i) {
-        ofs << (unsigned char)(std::min(float(1), image[i][0]) * 255) <<
-            (unsigned char)(std::min(float(1), image[i][1]) * 255) <<
-            (unsigned char)(std::min(float(1), image[i][2]) * 255);
+
+    cv::Mat res = cv::Mat::ones(h, w, CV_8UC3);
+    for (y = 0; y < h; ++y) {
+
+        for (x = 0; x < w; ++x) {
+            cv::Vec3b coin1 = mat.at<cv::Vec3b>(y*2, x*2);
+            cv::Vec3b coin2 = mat.at<cv::Vec3b>(y*2, x*2+1);
+            cv::Vec3b coin3 = mat.at<cv::Vec3b>(y*2+1, x*2);
+            cv::Vec3b coin4 = mat.at<cv::Vec3b>(y*2+1, x*2+1);
+            
+            float sumR = (float)coin1.val[2] + (float)coin2.val[2] + (float)coin3.val[2] + (float)coin4.val[2];
+            float sumG = (float)coin1.val[1] + (float)coin2.val[1] + (float)coin3.val[1] + (float)coin4.val[1];
+            float sumB = (float)coin1.val[0] + (float)coin2.val[0] + (float)coin3.val[0] + (float)coin4.val[0];
+            sumR /= 4;
+            sumG /= 4;
+            sumB /= 4;
+            cv::Vec3b average = cv::Vec3b(sumB, sumG, sumR);
+            res.at<cv::Vec3b>(y, x) = average;
+        }
     }
-    ofs.close();*/
+    cv::imshow("Raytracing", res);
+    cv::waitKey(0);
+    cv::imwrite(imageName, res);
     delete[] image;
 
 }
@@ -83,34 +99,9 @@ void Tracer::render(Scene scene) {
 Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene) {
 
    Material m = obj->getMaterial();
-    Color amb = m.ambiant.mul(scene.getAmbiant());
-
-    Color diff = Color();
-    Color spec = Color();
-
-    float angle, angle2;
-    int nbLights = scene.nbLights();
-    Ray normale = obj->getNormal(impact, ray.origin);
-    /*Color res(normale.vector[0], normale.vector[1], normale.vector[2]);
-    return res;*/
-
-        for (int i = 0; i < nbLights; i++) {
-            Ray l = scene.getLight(i).getRayToLight(impact);
-            angle = (l.vector.dot(normale.vector) / (l.vector.norm() * normale.vector.norm()));
-            Vector v = l.vector - 2 * (l.vector.dot(normale.vector) * normale.vector);
-            angle2 = (v.dot(ray.vector)) / (v.norm() * ray.vector.norm());
-            if (angle > 0) {
-                diff += m.diffuse.mul(scene.getLight(i).id) * angle;
-            }
-            if (angle2 > 0) {
-                spec += m.specular.mul(scene.getLight(i).is) * pow(angle2, m.shininess);
-            }
-        }
-        Color Phong = diff + amb + spec;
-        return Phong;
-
-    /*Material m = obj->getMaterial(impact);
     Ray normal = obj->getNormal(impact, ray.origin);
+    //Color res(normal.vector[0], normal.vector[1], normal.vector[2]);
+    //return res;
     Color c = m.ambiant.mul(scene.getAmbiant());
     for (int l = 0; l < scene.nbLights(); l++) {
         Light light = scene.getLight(l);
@@ -126,11 +117,11 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
             c += (light.is).mul(m.specular) * pow(beta, m.shininess);
     }
 
-    return c;*/
+    return c;
 
 }
 
-Color Tracer::trace(Ray ray, Scene scene, int depth)
+Color Tracer::trace(Ray ray, Scene scene, int depth, bool ombre)
 {
     
     Point impact = Point();
@@ -161,16 +152,17 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
             float b = tmp[0] / max;
             res = res * Color(r, g, b);
         }
-        Light l = scene.getLight(0);
-        Ray lv = l.getRayToLight(impact);
-        lv.origin = lv.origin + Point(lv.vector[0], lv.vector[1], lv.vector[2]);
-        Color transmission(1,1,1);
-        Vector lightDirection = lv.vector;
-        lightDirection.normalized();
-        
-        std::vector<Object*> obj = scene.getObjects();
-        Point impact2 = Point();
-        for (unsigned j = 0; j < obj.size(); ++j) {
+        if (ombre) {
+            Light l = scene.getLight(0);
+            Ray lv = l.getRayToLight(impact);
+            lv.origin = lv.origin + Point(lv.vector[0], lv.vector[1], lv.vector[2]);
+            Color transmission(1, 1, 1);
+            Vector lightDirection = lv.vector;
+            lightDirection.normalized();
+
+            std::vector<Object*> obj = scene.getObjects();
+            Point impact2 = Point();
+            for (unsigned j = 0; j < obj.size(); ++j) {
                 float t0, t1;
                 if (obj[j]->intersect(lv, impact2, t0, t1)) {
                     if (obj[j] == object) {
@@ -181,9 +173,10 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
                     }
                     break;
                 }
-            
+
+            }
+            res = res * transmission;
         }
-        res = res * transmission;
         
     }
     Color res2(res[0], res[1], res[2]);

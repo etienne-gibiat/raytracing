@@ -20,6 +20,7 @@
     <ClCompile Include="Tracer.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vector.cpp" />
+    <ClCompile Include="json.cpp" />
     <ClCompile Include="Cone.cpp" />
     <ClCompile Include="Carre.cpp" />
   </ItemGroup>
@@ -44,5 +45,6 @@
     <ClInclude Include="Triangle.hpp" />
     <ClInclude Include="Cone.hpp" />
     <ClInclude Include="Carre.hpp" />
+    <ClInclude Include="json.h" />
   </ItemGroup>
 </Project>

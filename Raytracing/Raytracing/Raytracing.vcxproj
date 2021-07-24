@@ -155,6 +155,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="CylindreInfini.cpp" />
     <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="json.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Cube.hpp" />
     <ClInclude Include="CylindreInfini.hpp" />
     <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="json.h" />
     <ClInclude Include="Light.hpp" />
     <ClInclude Include="Material.hpp" />
     <ClInclude Include="Matrix.hpp" />
