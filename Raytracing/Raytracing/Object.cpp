@@ -11,7 +11,7 @@ Object::Object() : Entity::Entity()
 
 //}
 
-Material Object::getMaterial(const Point& p)const {
+Material Object::getMaterial()const {
 	return this->material;
 }
 

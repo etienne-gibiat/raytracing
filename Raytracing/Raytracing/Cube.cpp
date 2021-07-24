@@ -7,7 +7,7 @@ Cube::Cube() : Object::Object()
 
 Cube::Cube(Color color)
 {
-	this->material = Material(color, color, color, 0);
+	this->material = Material(color, color, color, 0, 0, 0);
 
 }
 

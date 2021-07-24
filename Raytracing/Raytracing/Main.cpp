@@ -266,10 +266,12 @@ int main(int argc, char** argv)
     sphere.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere.material.specular = Color(0.75, 0.75, 0.75);
     sphere.material.shininess = 3;
-    sphere.Texture = cv::imread("damier.jpg");
+    sphere.material.transparency = 0.5;
+    sphere.material.reflection = 1;
+    //sphere.Texture = cv::imread("Grass_01.jpg");
 
-    sphere2.translate(0, 0, 10);
-    sphere2.scale(0.8);
+    sphere2.translate(3.5, 0, 31);
+    sphere2.scale(0.4);
     sphere2.material.diffuse = Color(0.25, 0.25, 0.25);
     sphere2.material.specular = Color(0.75, 0.75, 0.75);
     sphere2.material.shininess = 3;
@@ -296,7 +298,7 @@ int main(int argc, char** argv)
 
     Cube cube(Color(0,1,0));
     cube.translate(-10, 0, 10);
-    cube.Texture = cv::imread("damier.jpg");
+    cube.Texture = cv::imread("grass_02.jpg");
     cube.rotateX(0.3);
     //cube.rotateY(30);
     //cube.rotateZ(40
@@ -316,8 +318,9 @@ int main(int argc, char** argv)
     carre.rotateY(1);
 
 
-    Cone cone(Color(0, 1, 0));
-    cone.translate(-5, 0, 100);
+    Cone cone(Color(0, 0.5, 0));
+    cone.translate(-5, 5, 30);
+    cone.rotateZ(1.5708);
     cone.rotateZ(1.5708);
     //cone.rotateY(-1.5708);
     cube.material.diffuse = Color(0.25, 0.25, 0.25);
@@ -340,19 +343,19 @@ int main(int argc, char** argv)
     //Plan plan(Color(1,1,1));
     plan.translate(0, -3, 0);
     plan.rotateX(1.5708);
-    plan.normale = Vector(0, 1, 0);
+    plan.normale = Vector(1, 1, 1);
     plan.material.diffuse = Color(0, 0, 0);
     plan.material.specular = Color(0, 0, 0);
-    plan.Texture = cv::imread("Grass_01.jpg");
-    scene.addObject(&carre);
+    plan.Texture = cv::imread("grass_02.jpg");
+    //scene.addObject(&carre);
     //scene.addObject(&triangle);
     scene.addObject(&sphere);
     scene.addObject(&sphere2);
-    scene.addObject(&sphere3);
-    scene.addObject(&sphere4);
+    //scene.addObject(&sphere3);
+    //scene.addObject(&sphere4);
     scene.addObject(&cone);
-    scene.addObject(&cylindre);
-    scene.addObject(&cube);
+    //scene.addObject(&cylindre);
+    //scene.addObject(&cube);
     
     
     scene.addObject(&plan);

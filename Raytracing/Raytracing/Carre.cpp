@@ -8,7 +8,7 @@ Carre::Carre() : Object::Object()
 Carre::Carre(Color color)
 {
 
-	this->material = Material(color, color, color, 0);
+	this->material = Material(color, color, color, 0, 0, 0);
 
 }
 

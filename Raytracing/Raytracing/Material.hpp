@@ -5,9 +5,10 @@ class Material
 {
 public:
 	Color ambiant, diffuse, specular;
-	float shininess;
+	float shininess, transparency, reflection;
+
 	Material();
-	Material(Color ambiant, Color diffuse, Color specular, float shininess);
+	Material(Color ambiant, Color diffuse, Color specular, float shininess, float reflection, float transparency);
 
 private:
 

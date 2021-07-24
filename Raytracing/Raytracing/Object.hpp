@@ -13,7 +13,7 @@ public:
 	Object();
 
 	//Point getTextureCoordinates(const Point& p)const;
-	Material getMaterial(const Point& p)const;
+	Material getMaterial()const;
 	virtual Point getTextureCoordinates(const Point& p) {
 		return Point(0, 0, 0);
 

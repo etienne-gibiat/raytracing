@@ -31,7 +31,7 @@ void Tracer::render(Scene scene) {
     const float gamma = 1.f / 2.2f;
 
     unsigned width = 850, height = 480;
-    //unsigned width = 1920, height = 1080;
+    //unsigned width = 2546, height = 1440;
     cv::Mat mat = cv::Mat::ones(height, width, CV_8UC3);
     Color pixelColor;
     Color* image = new Color[width * height], * pixel = image;
@@ -82,7 +82,7 @@ void Tracer::render(Scene scene) {
 
 Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene) {
 
-   Material m = obj->getMaterial(impact);
+   Material m = obj->getMaterial();
     Color amb = m.ambiant.mul(scene.getAmbiant());
 
     Color diff = Color();
@@ -94,20 +94,21 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
     /*Color res(normale.vector[0], normale.vector[1], normale.vector[2]);
     return res;*/
 
-    for (int i = 0; i < nbLights; i++) {
-        Ray l = scene.getLight(i).getRayToLight(impact);
-        angle = (l.vector.dot(normale.vector) / (l.vector.norm() * normale.vector.norm()));
-        Vector v = l.vector - 2 * (l.vector.dot(normale.vector) * normale.vector);
-        angle2 = (v.dot(ray.vector)) / (v.norm() * ray.vector.norm());
-        if (angle > 0) {
-            diff += m.diffuse.mul(scene.getLight(i).id) * angle;
+        for (int i = 0; i < nbLights; i++) {
+            Ray l = scene.getLight(i).getRayToLight(impact);
+            angle = (l.vector.dot(normale.vector) / (l.vector.norm() * normale.vector.norm()));
+            Vector v = l.vector - 2 * (l.vector.dot(normale.vector) * normale.vector);
+            angle2 = (v.dot(ray.vector)) / (v.norm() * ray.vector.norm());
+            if (angle > 0) {
+                diff += m.diffuse.mul(scene.getLight(i).id) * angle;
+            }
+            if (angle2 > 0) {
+                spec += m.specular.mul(scene.getLight(i).is) * pow(angle2, m.shininess);
+            }
         }
-        if (angle2 > 0) {
-            spec += m.specular.mul(scene.getLight(i).is) * pow(angle2, m.shininess);
-        }
-    }
-    Color Phong = diff + amb + spec;
-    return Phong;
+        Color Phong = diff + amb + spec;
+        return Phong;
+
     /*Material m = obj->getMaterial(impact);
     Ray normal = obj->getNormal(impact, ray.origin);
     Color c = m.ambiant.mul(scene.getAmbiant());
@@ -173,7 +174,7 @@ Color Tracer::trace(Ray ray, Scene scene, int depth)
                 float t0, t1;
                 if (obj[j]->intersect(lv, impact2, t0, t1)) {
                     if (obj[j] == object) {
-                        transmission = Color(0.7, 0.7, 0.7); 
+                        //transmission = Color(0.7, 0.7, 0.7); 
                     }
                     else {
                         transmission = Color(0.3, 0.3, 0.3);

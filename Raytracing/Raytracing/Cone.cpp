@@ -1,6 +1,8 @@
 #include "Cone.hpp"
 #include <math.h> 
 #define INFINITY 1e8
+#define M_PI 3.141592653589793
+#define M_PI_2 3.141592653589793 / 2
 
 Cone::Cone() : Object::Object()
 {
@@ -9,7 +11,7 @@ Cone::Cone() : Object::Object()
 
 Cone::Cone(Color color)
 {
-	this->material = Material(color, color, color, 0);
+	this->material = Material(color, color, color, 0, 0, 0);
 
 }
 
@@ -35,13 +37,12 @@ Ray Cone::getNormal(const Point& impact, const Point& observator) {
     float y = 0.523599 / INFINITY;
     float z = lp[2] * (INFINITY / 0.523599);
     //Ray res(lp, Vector(lp[0], lp[1], sin(0.523599)));
-    /*Vector v = Vector(0, -1, 0);
-    Vector cp = Vector(lp[0], lp[1], lp[3]);
-    Vector n = cp * v.dot(cp) / cp.dot(cp) - v;*/
+    //Vector v = Vector(0, -1, 0);
+    //Vector cp = Vector(lp[0], lp[1], lp[3]);
+    //Vector n = cp * v.dot(cp) / cp.dot(cp) - v;
 
     Ray res(lp, Vector(x, y, z));
-    //Ray res(lp, n);
-
+    
     res = localToGlobal(res);
     res.normalized();
     return res;

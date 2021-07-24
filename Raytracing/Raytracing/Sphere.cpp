@@ -7,7 +7,7 @@ Sphere::Sphere() : Object::Object()
 
 Sphere::Sphere(Color color)
 {
-	this->material = Material(color, color, color, 0);
+	this->material = Material(color, color, color, 0, 0, 0);
 
 }
 

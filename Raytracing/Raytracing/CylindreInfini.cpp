@@ -7,7 +7,7 @@ CylindreInfini::CylindreInfini() : Object::Object()
 
 CylindreInfini::CylindreInfini(Color color)
 {
-	this->material = Material(color, color, color, 0);
+	this->material = Material(color, color, color, 0, 0, 0);
 	this->position = Point(position);
 }
 
