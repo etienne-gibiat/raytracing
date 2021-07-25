@@ -60,6 +60,7 @@ int main(int argc, char** argv)
     std::string imageName;
     std::string sceneName;
     bool ombre = false;
+    bool uv = false;
     while (saisieValid != "y") {
         std::cout << std::endl << "---------------------" << std::endl << std::endl <<"Choisir la taille en longueur : ";
         std::cin >> x;
@@ -80,18 +81,30 @@ int main(int argc, char** argv)
         sceneChosed -= 1;
         sceneName = lstScenes.at(sceneChosed);
 
-        std::cout << std::endl << "Voulez vous activer les ombres ? (y/n)";
-        std::string ombreStr;
-        std::cin >> ombreStr;
-        if (ombreStr == "y") {
-            ombre = true;
+        std::cout << std::endl << "Voulez vous activer l'affichage des uv ? (y/n)";
+        std::string uvStr;
+        std::cin >> uvStr;
+        if (uvStr == "y") {
+            uv = true;
         }
-        if (ombre) {
-            std::cout << "Vous avez choisi une taille de " << x << " x " << y << " avec les ombres activees" << std::endl;
+        if (uv) {
+            std::cout << "Vous avez choisi une taille de " << x << " x " << y << " avec l'affichage des uv" << std::endl;
         }
         else {
-            std::cout << "Vous avez choisi une taille de " << x << " x " << y << " avec les ombres desactivees" << std::endl;
+            std::cout << std::endl << "Voulez vous activer les ombres ? (y/n)";
+            std::string ombreStr;
+            std::cin >> ombreStr;
+            if (ombreStr == "y") {
+                ombre = true;
+            }
+            if (ombre) {
+                std::cout << "Vous avez choisi une taille de " << x << " x " << y << " avec les ombres activees" << std::endl;
+            }
+            else {
+                std::cout << "Vous avez choisi une taille de " << x << " x " << y << " avec les ombres desactivees" << std::endl;
+            }
         }
+        
         std::cout << "Le fichier de scene est " << sceneName <<" et l'image sera enregistree sous le nom " << imageName << std::endl;
         
         std::cout << "Confirmez vous les parametres ? (y/n)";
@@ -362,7 +375,7 @@ int main(int argc, char** argv)
         //cv::waitKey(1);
 
         Tracer tracer = Tracer();
-        tracer.render(scene,x,y, imageName, ombre);
+        tracer.render(scene,x,y, imageName, ombre, uv);
 
         /*sphere.translate(n, 0, 0);
 

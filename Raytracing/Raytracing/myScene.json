@@ -111,7 +111,7 @@
 	
 	"Cones": [
 		{
-			"Translate" : {"x" : -5, "y": 5, "z": 30},
+			"Translate" : {"x" : -7, "y": 5, "z": 30},
 			"Color" : {"r" :0.00, "g": 0.50, "b": 0.00},
 			"Scale" : 1,
 			"RotateX" : 3.14,

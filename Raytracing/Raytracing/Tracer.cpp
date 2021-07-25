@@ -24,7 +24,7 @@ Tracer::Tracer()
 {
 }
 unsigned x, y;
-void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre) {
+void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre, bool uv) {
 
     
 
@@ -64,7 +64,7 @@ void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre
             float yprim = (float)y / (float)height;
             Ray ray = camera.getRay(xprim, yprim);
             
-            *pixel = trace(ray, scene, 5, ombre);
+            *pixel = trace(ray, scene, 5, ombre, uv);
             mat.at<cv::Vec3b>(y, x) = cv::Vec3b(pixel->tabColor[2]*255, pixel->tabColor[1]*255, pixel->tabColor[0]*255);
             
         }
@@ -96,12 +96,15 @@ void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre
 
 }
 
-Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene) {
+Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene, bool uv) {
 
    Material m = obj->getMaterial();
     Ray normal = obj->getNormal(impact, ray.origin);
-    //Color res(normal.vector[0], normal.vector[1], normal.vector[2]);
-    //return res;
+    if (uv) {
+        Color res(normal.vector[0], normal.vector[1], normal.vector[2]);
+        return res;
+    }
+    
     Color c = m.ambiant.mul(scene.getAmbiant());
     for (int l = 0; l < scene.nbLights(); l++) {
         Light light = scene.getLight(l);
@@ -121,7 +124,7 @@ Color Tracer::getImpactColor(Ray& ray, Object* obj, Point& impact, Scene& scene)
 
 }
 
-Color Tracer::trace(Ray ray, Scene scene, int depth, bool ombre)
+Color Tracer::trace(Ray ray, Scene scene, int depth, bool ombre, bool uv)
 {
     
     Point impact = Point();
@@ -132,7 +135,7 @@ Color Tracer::trace(Ray ray, Scene scene, int depth, bool ombre)
         res = scene.getBackGroundImage(x,y);
     }
     else {
-        res = getImpactColor(ray, object, impact, scene);
+        res = getImpactColor(ray, object, impact, scene, uv);
         if (object->Texture.data != NULL) {
             Point p = object->getTextureCoordinates(impact);
             int xt = p[0] * object->Texture.cols;

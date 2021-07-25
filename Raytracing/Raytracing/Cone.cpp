@@ -28,21 +28,15 @@ Point Cone::getTextureCoordinates(const Point& p) {
 
 Ray Cone::getNormal(const Point& impact, const Point& observator) {
 
-
-
     Point lp = globalToLocal(impact);
     Point lo = globalToLocal(observator);
-
-    float x = lp[0] * (INFINITY / 0.523599);
-    float y = 0.523599 / INFINITY;
-    float z = lp[2] * (INFINITY / 0.523599);
-    //Ray res(lp, Vector(lp[0], lp[1], sin(0.523599)));
-    //Vector v = Vector(0, -1, 0);
-    //Vector cp = Vector(lp[0], lp[1], lp[3]);
-    //Vector n = cp * v.dot(cp) / cp.dot(cp) - v;
-
-    Ray res(lp, Vector(x, y, z));
-    
+    if ((lo - Point(0, lo[1], 0)).norm() > 1) {
+        Ray res(lp, Vector(lp[0], 0, lp[2]));
+        res = localToGlobal(res);
+        res.normalized();
+        return res;
+    }
+    Ray res(lp, Vector(-lp[0], 0, -lp[2]));
     res = localToGlobal(res);
     res.normalized();
     return res;
