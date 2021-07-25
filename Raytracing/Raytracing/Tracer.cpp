@@ -34,7 +34,6 @@ void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre
     unsigned width = w*2, height = h*2;
     cv::Mat mat = cv::Mat::ones(height, width, CV_8UC3);
     Color pixelColor;
-    Color* image = new Color[width * height], * pixel = image;
     float invWidth = 1 / float(width), invHeight = 1 / float(height);
     float fov = 60, aspectratio = width / float(height);
     float angle = tan(M_PI * 0.5 * fov / 180.);
@@ -42,7 +41,7 @@ void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre
     // Trace rays
     for (y = 0; y < height; ++y) {
         
-        for (x = 0; x < width; ++x, ++pixel) {
+        for (x = 0; x < width; ++x) {
 
 
             if (y / (height * 0.25) == 1 && x == 0) {
@@ -64,8 +63,8 @@ void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre
             float yprim = (float)y / (float)height;
             Ray ray = camera.getRay(xprim, yprim);
             
-            *pixel = trace(ray, scene, 5, ombre, uv);
-            mat.at<cv::Vec3b>(y, x) = cv::Vec3b(pixel->tabColor[2]*255, pixel->tabColor[1]*255, pixel->tabColor[0]*255);
+            pixelColor = trace(ray, scene, 5, ombre, uv);
+            mat.at<cv::Vec3b>(y, x) = cv::Vec3b(pixelColor.tabColor[2]*255, pixelColor.tabColor[1]*255, pixelColor.tabColor[0]*255);
             
         }
     }
@@ -92,7 +91,6 @@ void Tracer::render(Scene scene, int w, int h, std::string imageName, bool ombre
     cv::imshow("Raytracing", res);
     cv::waitKey(0);
     cv::imwrite(imageName, res);
-    delete[] image;
 
 }
 
